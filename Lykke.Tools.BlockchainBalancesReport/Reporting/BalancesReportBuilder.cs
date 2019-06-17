@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Balances;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
-using Lykke.Tools.BlockchainBalancesReport.ExplorerUrlFormatters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

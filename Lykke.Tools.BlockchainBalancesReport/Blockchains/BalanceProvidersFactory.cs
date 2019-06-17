@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Balances
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
 {
     public class BalanceProvidersFactory
     {

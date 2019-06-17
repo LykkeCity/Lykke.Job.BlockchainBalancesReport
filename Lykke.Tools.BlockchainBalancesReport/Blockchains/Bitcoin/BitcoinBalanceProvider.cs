@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Balances.Bitcoin
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
 {
     public class BitcoinBalanceProvider : IBalanceProvider
     {

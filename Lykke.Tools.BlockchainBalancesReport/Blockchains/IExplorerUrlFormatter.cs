@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.ExplorerUrlFormatters
+﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
 {
     public interface IExplorerUrlFormatter
     {

@@ -24,4 +24,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Blockchains\BitcoinCash\" />
+    <Folder Include="Blockchains\LiteCoin\" />
+  </ItemGroup>
+
 </Project>

@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Balances.Bitcoin
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
 {
-    public class NinjaBalancesResponse
-    {
-        public string Continuation { get; set; }
-        public IReadOnlyCollection<NinjaBalancesOperation> Operations { get; set; }
-    }
-
-    public class NinjaBalancesOperation
-    {
-        public long Amount { get; set; }
-        public DateTimeOffset FirstSeen { get; set; }
-    }
-
     public class NinjaClient
     {
         private readonly string _url;
