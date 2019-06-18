@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lykke.Tools.BlockchainBalancesReport.Clients.Ninja;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -19,7 +20,8 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
         }
 
         public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
-            string address, DateTime at)
+            string address, 
+            DateTime at)
         {
             string continuation = null;
             long satoshiBalance = 0;

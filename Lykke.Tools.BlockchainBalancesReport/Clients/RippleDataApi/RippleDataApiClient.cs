@@ -6,7 +6,7 @@ using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple
+namespace Lykke.Tools.BlockchainBalancesReport.Clients.RippleDataApi
 {
     public class RippleDataApiClient
     {

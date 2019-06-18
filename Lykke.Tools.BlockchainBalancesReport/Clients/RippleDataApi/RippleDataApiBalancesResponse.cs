@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple
+namespace Lykke.Tools.BlockchainBalancesReport.Clients.RippleDataApi
 {
     public class RippleDataApiBalancesResponse
     {

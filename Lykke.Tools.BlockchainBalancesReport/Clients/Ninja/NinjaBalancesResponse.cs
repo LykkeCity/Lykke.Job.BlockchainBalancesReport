@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
+namespace Lykke.Tools.BlockchainBalancesReport.Clients.Ninja
 {
     public class NinjaBalancesResponse
     {

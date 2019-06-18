@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Lykke.Tools.BlockchainBalancesReport.Reporting;
@@ -37,13 +38,16 @@ namespace Lykke.Tools.BlockchainBalancesReport
 
             services.AddTransient<IBalanceProvider, BitcoinBalanceProvider>();
             services.AddTransient<IBalanceProvider, RippleBalanceProvider>();
+            services.AddTransient<IBalanceProvider, BitcoinCashBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, BitcoinCashExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
             services.Configure<RippleSettings>(configuration.GetSection("Ripple"));
+            services.Configure<BitcoinCashSettings>(configuration.GetSection("BitcoinCash"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
