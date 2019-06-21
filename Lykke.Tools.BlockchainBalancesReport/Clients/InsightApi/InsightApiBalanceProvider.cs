@@ -2,18 +2,23 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Polly;
 
 namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
 {
     public class InsightApiBalanceProvider
     {
+        private readonly ILogger<InsightApiBalanceProvider> _logger;
         private readonly InsightApiClient _insightApiClient;
         private readonly Func<string, string> _addressNormalizer;
 
         public InsightApiBalanceProvider(
+            ILogger<InsightApiBalanceProvider> logger,
             InsightApiClient insightApiClient,
             Func<string, string> addressNormalizer)
         {
+            _logger = logger;
             _insightApiClient = insightApiClient;
             _addressNormalizer = addressNormalizer;
         }
@@ -32,7 +37,14 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
 
             do
             {
-                var response = await _insightApiClient.GetAddressTransactions(normalizedAddress, page);
+                var response = await Policy
+                    .Handle<Exception>(ex =>
+                    {
+                        _logger.LogWarning(ex, $"Failed to get balances page {page} of {address}. Operation will be retried.");
+                        return true;
+                    })
+                    .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
+                    .ExecuteAsync(async () => await _insightApiClient.GetAddressTransactions(normalizedAddress, page));
 
                 var sum = response.Transactions
                     .Where(x => x.Time <= atTime)

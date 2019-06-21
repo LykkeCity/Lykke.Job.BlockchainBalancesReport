@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NBitcoin;
 using NBitcoin.Altcoins;
@@ -16,13 +17,16 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold
         private readonly Network _network;
         private readonly InsightApiBalanceProvider _balanceProvider;
 
-        public BitcoinGoldBalanceProvider(IOptions<BitcoinGoldSettings> settings)
+        public BitcoinGoldBalanceProvider(
+            ILoggerFactory loggerFactory,
+            IOptions<BitcoinGoldSettings> settings)
         {
             BGold.Instance.EnsureRegistered();
 
             _network = BGold.Instance.Mainnet;
             _balanceProvider = new InsightApiBalanceProvider
             (
+                loggerFactory.CreateLogger<InsightApiBalanceProvider>(),
                 new InsightApiClient(settings.Value.InsightApiUrl),
                 NormalizeOrDefault
             );
