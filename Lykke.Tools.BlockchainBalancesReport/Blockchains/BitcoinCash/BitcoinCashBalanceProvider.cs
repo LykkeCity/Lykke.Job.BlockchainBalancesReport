@@ -21,6 +21,8 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash
 
         public BitcoinCashBalanceProvider(IOptions<BitcoinCashSettings> settings)
         {
+            BCash.Instance.EnsureRegistered();
+
             _btcNetwork = Network.Main;
             _bchNetwork = BCash.Instance.Mainnet;
             _client = new InsightApiClient(settings.Value.InsightApiUrl);

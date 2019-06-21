@@ -9,26 +9,24 @@ using Microsoft.Extensions.Options;
 using NBitcoin;
 using NBitcoin.Altcoins;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold
 {
-    public class LiteCoinBalanceProvider : IBalanceProvider
+    public class BitcoinGoldBalanceProvider : IBalanceProvider
     {
-        public string BlockchainType => "LiteCoin";
+        public string BlockchainType => "BitcoinGold";
 
         private readonly InsightApiClient _client;
         private readonly Network _network;
 
-        public LiteCoinBalanceProvider(IOptions<LiteCoinSettings> settings)
+        public BitcoinGoldBalanceProvider(IOptions<BitcoinGoldSettings> settings)
         {
-            Litecoin.Instance.EnsureRegistered();
+            BGold.Instance.EnsureRegistered();
 
-            _network = Litecoin.Instance.Mainnet;
             _client = new InsightApiClient(settings.Value.InsightApiUrl);
+            _network = BGold.Instance.Mainnet;
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
-            string address,
-            DateTime at)
+        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(string address, DateTime at)
         {
             decimal balance = 0;
             var page = 0;
@@ -37,7 +35,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin
 
             if (normalizedAddress == null)
             {
-                throw new InvalidOperationException($"Invalid LTC address: {address}");
+                throw new InvalidOperationException($"Invalid BCH address: {address}");
             }
 
             do
@@ -60,7 +58,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin
 
             return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
             {
-                {("LTC", "2971fbd8-8cbc-4797-8823-9fbde8be3b1c"), balance}
+                {("BTG", "a4954205-48eb-4286-9c82-07792169f4db"), balance}
             };
         }
 

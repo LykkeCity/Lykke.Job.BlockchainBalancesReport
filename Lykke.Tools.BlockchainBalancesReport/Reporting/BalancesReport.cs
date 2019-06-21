@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
@@ -66,7 +67,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             {
                 await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,blockchain asset,asset ID,balance,explorer");
 
-                foreach (var i in _items)
+                foreach (var i in _items.OrderBy(x => x.BlockchainType).ThenBy(x => x.AddressName))
                 {
                     await writer.WriteAsync($"{date:yyyy-MM-ddTHH:mm:ss},");
                     await writer.WriteAsync($"{i.BlockchainType},");
