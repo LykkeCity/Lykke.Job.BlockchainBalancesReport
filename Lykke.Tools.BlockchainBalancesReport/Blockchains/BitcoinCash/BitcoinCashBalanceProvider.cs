@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
@@ -15,9 +13,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash
     {
         public string BlockchainType => "BitcoinCash";
 
-        private readonly InsightApiClient _client;
         private readonly Network _btcNetwork;
         private readonly Network _bchNetwork;
+        private readonly InsightApiBalanceProvider _balanceProvider;
 
         public BitcoinCashBalanceProvider(IOptions<BitcoinCashSettings> settings)
         {
@@ -25,62 +23,25 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash
 
             _btcNetwork = Network.Main;
             _bchNetwork = BCash.Instance.Mainnet;
-            _client = new InsightApiClient(settings.Value.InsightApiUrl);
+            _balanceProvider = new InsightApiBalanceProvider
+            (
+                new InsightApiClient(settings.Value.InsightApiUrl),
+                NormalizeOrDefault
+            );
         }
 
         public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
             string address,
             DateTime at)
         {
-            decimal balance = 0;
-            var page = 0;
-            var atTime = new DateTimeOffset(at, TimeSpan.Zero).ToUnixTimeSeconds();
-            var normalizedAddress = NormalizeOrDefault(address);
-
-            if (normalizedAddress == null)
-            {
-                throw new InvalidOperationException($"Invalid BCH address: {address}");
-            }
-
-            do
-            {
-                var response = await _client.GetAddressTransactions(normalizedAddress, page);
-
-                var sum = response.Transactions
-                    .Where(x => x.Time <= atTime)
-                    .Select(x => GetTransactionValue(x, normalizedAddress))
-                    .Sum();
-
-                balance += sum;
-
-                if (++page >= response.PagesTotal)
-                {
-                    break;
-                }
-
-            } while (true);
+            var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
             return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
             {
                 {("BCH", "2a34d6a6-5839-40e5-836f-c1178fa09b89"), balance}
             };
         }
-
-        private decimal GetTransactionValue(InsightApiTransaction tx, string forAddress)
-        {
-            var inputs = tx.Inputs
-                .Where(i => NormalizeOrDefault(i.Address) == forAddress)
-                .Sum(i => i.Value);
-            var outputs = tx.Outputs
-                .Where(o => o.ScriptPubKey.Addresses != null &&
-                            o.ScriptPubKey.Addresses
-                                .Select(NormalizeOrDefault)
-                                .Contains(forAddress))
-                .Sum(o => decimal.Parse(o.Value, CultureInfo.InvariantCulture));
-
-            return outputs - inputs;
-        }
-
+        
         private string NormalizeOrDefault(string address)
         {
             // ReSharper disable CommentTypo

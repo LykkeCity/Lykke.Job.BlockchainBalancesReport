@@ -1,6 +1,6 @@
 ﻿namespace Lykke.Tools.BlockchainBalancesReport.Configuration
 {
-    public class BitcoinGoldSettings
+    public class ZCashSettings
     {
         public string InsightApiUrl { get; set; }
     }

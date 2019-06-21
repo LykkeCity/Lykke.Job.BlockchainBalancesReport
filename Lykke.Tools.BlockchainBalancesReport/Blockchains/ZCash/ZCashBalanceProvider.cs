@@ -4,23 +4,17 @@ using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
-using NBitcoin;
-using NBitcoin.Altcoins;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash
 {
-    public class BitcoinGoldBalanceProvider : IBalanceProvider
+    public class ZCashBalanceProvider : IBalanceProvider
     {
-        public string BlockchainType => "BitcoinGold";
+        public string BlockchainType => "ZCash";
 
-        private readonly Network _network;
         private readonly InsightApiBalanceProvider _balanceProvider;
 
-        public BitcoinGoldBalanceProvider(IOptions<BitcoinGoldSettings> settings)
+        public ZCashBalanceProvider(IOptions<ZCashSettings> settings)
         {
-            BGold.Instance.EnsureRegistered();
-
-            _network = BGold.Instance.Mainnet;
             _balanceProvider = new InsightApiBalanceProvider
             (
                 new InsightApiClient(settings.Value.InsightApiUrl),
@@ -34,22 +28,18 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold
 
             return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
             {
-                {("BTG", "a4954205-48eb-4286-9c82-07792169f4db"), balance}
+                {("ZEC", "b2c591a2-6c2d-4130-89cd-71813481bb76"), balance}
             };
         }
 
-        private string NormalizeOrDefault(string address)
+        private static string NormalizeOrDefault(string address)
         {
-            try
+            if (!string.IsNullOrWhiteSpace(address))
             {
-                var bitcoinAddress = BitcoinAddress.Create(address, _network);
+                return address;
+            }
 
-                return bitcoinAddress.ToString();
-            }
-            catch (FormatException)
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
