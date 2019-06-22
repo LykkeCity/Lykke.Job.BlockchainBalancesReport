@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,18 +10,37 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
 {
     public class BalancesReport
     {
-        private readonly ILogger<BalancesReport> _logger;
-        private readonly IOptions<ReportSettings> _settings;
         private readonly List<ReportItem> _items;
         private bool _saved;
+        private readonly IReadOnlyCollection<IReportRepository> _reportRepositories;
 
         public BalancesReport(
-            ILogger<BalancesReport> logger,
+            ILoggerFactory loggerFactory,
             IOptions<ReportSettings> settings)
         {
-            _logger = logger;
-            _settings = settings;
             _items = new List<ReportItem>();
+
+            var s = settings.Value;
+            var repositories = new List<IReportRepository>();
+                
+            if (s.Repositories.File != null)
+            {
+                repositories.Add
+                (
+                    new FileSystemReportRepository
+                    (
+                        loggerFactory.CreateLogger<FileSystemReportRepository>(),
+                        s.Repositories.File
+                    )
+                );
+            }
+
+            if (s.Repositories.Sql != null)
+            {
+                repositories.Add(new AzureSqlReportRepository(TODO, s.Repositories.Sql));
+            }
+
+            _reportRepositories = repositories;
         }
 
         public void AddBalance(
@@ -57,30 +73,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
         {
             _saved = true;
 
-            var filePath = _settings.Value.ReportFilePath;
-            var date = _settings.Value.BalancesAt;
+            var tasks = _reportRepositories.Select(x => x.SaveAsync(_items));
 
-            _logger.LogInformation($"Saving balances report to {filePath}...");
-
-            var stream = File.Open(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
-            using (var writer = new StreamWriter(stream, Encoding.UTF8))
-            {
-                await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,blockchain asset,asset ID,balance,explorer");
-
-                foreach (var i in _items.OrderBy(x => x.BlockchainType).ThenBy(x => x.AddressName))
-                {
-                    await writer.WriteAsync($"{date:yyyy-MM-ddTHH:mm:ss},");
-                    await writer.WriteAsync($"{i.BlockchainType},");
-                    await writer.WriteAsync($"{i.AddressName},");
-                    await writer.WriteAsync($"{i.Address},");
-                    await writer.WriteAsync($"{i.BlockchainAsset},");
-                    await writer.WriteAsync($"{i.AssetId},");
-                    await writer.WriteAsync($"{i.Balance.ToString(CultureInfo.InvariantCulture)},");
-                    await writer.WriteLineAsync(i.ExplorerUrl);
-                }
-            }
-
-            _logger.LogInformation($"Balances report saving done. {_items.Count} balances saved");
+            await Task.WhenAll(tasks);
         }
     }
 }

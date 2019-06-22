@@ -5,8 +5,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Configuration
 {
     public class ReportSettings
     {
-        private DateTime _balancesAt;
-        public string ReportFilePath { get; set; }
+        public ReportRepositoriesSettings Repositories { get; set; }
 
         public DateTime BalancesAt
         {
@@ -18,5 +17,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Configuration
         /// Blockchains dictionary. Each blockchain contains dictionary of addresses by their names
         /// </summary>
         public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> Addresses { get; set; }
+
+        private DateTime _balancesAt;
     }
 }
