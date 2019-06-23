@@ -5,6 +5,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash;
@@ -47,6 +48,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, BitcoinGoldBalanceProvider>();
             services.AddTransient<IBalanceProvider, ZCashBalanceProvider>();
             services.AddTransient<IBalanceProvider, DashBalanceProvider>();
+            services.AddTransient<IBalanceProvider, EosBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -55,6 +57,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, BitcoinGoldExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, ZCashExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, DashExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, EosExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -64,6 +67,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<BitcoinGoldSettings>(configuration.GetSection("BitcoinGold"));
             services.Configure<ZCashSettings>(configuration.GetSection("ZCash"));
             services.Configure<DashSettings>(configuration.GetSection("Dash"));
+            services.Configure<EosSettings>(configuration.GetSection("Eos"));
 
             ServiceProvider = services.BuildServiceProvider();
         }

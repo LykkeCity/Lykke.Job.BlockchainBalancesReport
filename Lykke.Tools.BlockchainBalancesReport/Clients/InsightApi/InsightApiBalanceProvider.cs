@@ -40,7 +40,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
                 var response = await Policy
                     .Handle<Exception>(ex =>
                     {
-                        _logger.LogWarning(ex, $"Failed to get balances page {page} of {address}. Operation will be retried.");
+                        _logger.LogWarning(ex, $"Failed to get transactions page {page} of {address}. Operation will be retried.");
                         return true;
                     })
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
