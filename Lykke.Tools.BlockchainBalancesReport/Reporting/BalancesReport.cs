@@ -37,7 +37,14 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
 
             if (s.Repositories.Sql != null)
             {
-                repositories.Add(new AzureSqlReportRepository(TODO, s.Repositories.Sql));
+                repositories.Add
+                (
+                    new AzureSqlReportRepository
+                    (
+                        loggerFactory.CreateLogger<AzureSqlReportRepository>(),
+                        s.Repositories.Sql
+                    )
+                );
             }
 
             _reportRepositories = repositories;

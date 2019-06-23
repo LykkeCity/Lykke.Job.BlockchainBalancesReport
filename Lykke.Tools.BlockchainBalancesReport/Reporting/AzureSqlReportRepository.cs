@@ -62,18 +62,16 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                     @"
                         create table HotWalletBalances
                         (
-                            date datetime not null
-                                constraint HotWalletBalances_pk primary key,
-                            blockchain varchar(64) not null
-                                constraint HotWalletBalances_pk primary key,
+                            date datetime not null,                                
+                            blockchain varchar(64) not null,
                             addressName varchar(64) not null,
                             address varchar(128) not null,
-                                constraint HotWalletBalances_pk primary key,
                             blockchainAsset varchar(16) not null,
-                                constraint HotWalletBalances_pk primary key
                             assetId varchar(64),
                             balance decimal(38, 16) not null,
                             explorerUrl varchar(256)
+
+                            constraint HotWalletBalances_pk primary key (date, blockchain, address, blockchainAsset)
                         )"
                 );
             }
