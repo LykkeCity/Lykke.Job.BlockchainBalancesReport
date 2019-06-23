@@ -75,15 +75,21 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                         )"
                 );
             }
-            catch (SqlException ex)
+            catch (SqlException ex) when (ex.Number == 2714) // The table is already exists
             {
             }
 
-            await ExecuteNonQueryCommandAsync
-            (
-                connection,
-                "exec sp_addextendedproperty 'MS_Description', 'Blockchain hot and cold wallet daily balances', 'SCHEMA', 'dbo', 'TABLE', 'HotWalletBalances'"
-            );
+            try
+            {
+                await ExecuteNonQueryCommandAsync
+                (
+                    connection,
+                    "exec sp_addextendedproperty 'MS_Description', 'Blockchain hot and cold wallet daily balances', 'SCHEMA', 'dbo', 'TABLE', 'HotWalletBalances'"
+                );
+            }
+            catch (SqlException ex) when (ex.Number == 15233) // The property is already exists
+            {
+            }
         }
 
         private async Task RemoveItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
@@ -105,7 +111,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                 (
                     $@"
                     date = {DateTimeValue(item.Date)} and
-                    blockchainType = {StringValue(item.BlockchainType)} and
+                    blockchain = {StringValue(item.BlockchainType)} and
                     address = {StringValue(item.Address)} and
                     blockchainAsset = {StringValue(item.BlockchainAsset)}
                     {(item == lastItem ? "" : "or")}"
@@ -183,7 +189,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
         {
             return value == null
                 ? "NULL"
-                : $"'{value.Replace("'", "''")}";
+                : $"'{value.Replace("'", "''")}'";
         }
     }
 }
