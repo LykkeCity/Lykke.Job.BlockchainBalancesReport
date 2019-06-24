@@ -18,6 +18,8 @@
     <PackageReference Include="NBitcoin" Version="4.1.2.36" />
     <PackageReference Include="NBitcoin.Altcoins" Version="1.0.2.7" />
     <PackageReference Include="Polly" Version="7.1.0" />
+    <PackageReference Include="stellar-dotnet-sdk" Version="2.2.28" />
+    <PackageReference Include="stellar-dotnet-sdk-xdr" Version="2.2.28" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>

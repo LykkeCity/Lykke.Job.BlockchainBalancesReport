@@ -8,6 +8,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Lykke.Tools.BlockchainBalancesReport.Reporting;
@@ -49,6 +50,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, ZCashBalanceProvider>();
             services.AddTransient<IBalanceProvider, DashBalanceProvider>();
             services.AddTransient<IBalanceProvider, EosBalanceProvider>();
+            services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -58,6 +60,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, ZCashExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, DashExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, EosExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, StellarExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -68,6 +71,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<ZCashSettings>(configuration.GetSection("ZCash"));
             services.Configure<DashSettings>(configuration.GetSection("Dash"));
             services.Configure<EosSettings>(configuration.GetSection("Eos"));
+            services.Configure<StellarSettings>(configuration.GetSection("Stellar"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
