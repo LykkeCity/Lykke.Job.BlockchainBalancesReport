@@ -4,5 +4,6 @@
     {
         public string ParkApiUrl { get; set; }
         public string ApiKey { get; set; }
+        public string EosAuthorityUrl { get; set; }
     }
 }
