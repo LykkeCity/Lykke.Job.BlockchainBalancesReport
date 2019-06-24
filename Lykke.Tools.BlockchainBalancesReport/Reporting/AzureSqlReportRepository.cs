@@ -14,6 +14,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
     {
         private readonly ILogger<AzureSqlReportRepository> _logger;
         private readonly SqlConnectionStringBuilder _connectionBuilder;
+        private readonly bool _createTable;
 
         public AzureSqlReportRepository(
             ILogger<AzureSqlReportRepository> logger,
@@ -28,6 +29,8 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                 Password = settings.Password,
                 InitialCatalog = settings.Database
             };
+
+            _createTable = settings.CreateTable;
         }
 
         public async Task SaveAsync(IReadOnlyCollection<ReportItem> items)
@@ -36,19 +39,22 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             {
                 await connection.OpenAsync();
 
-                _logger.LogInformation($"Ensuring that SQL table {_connectionBuilder.DataSource}:{_connectionBuilder.InitialCatalog}.HotWalletBalances is created...");
+                if (_createTable)
+                {
+                    _logger.LogInformation($"Ensuring that SQL table {_connectionBuilder.DataSource}:{_connectionBuilder.InitialCatalog}.HotWalletBalances is created...");
 
-                await EnsureTableIsCreatedAsync(connection);
+                    await EnsureTableIsCreatedAsync(connection);
+                }
 
                 _logger.LogInformation("Ensuring that there are not balances saved yet...");
 
                 await RemoveItems(connection, items);
 
-                _logger.LogInformation("Inserting balances...");
+                _logger.LogInformation("Saving balances...");
 
                 await InsertItems(connection, items);
 
-                _logger.LogInformation($"Inserting done. {items.Count} balances saved");
+                _logger.LogInformation($"Saving done. {items.Count} balances saved");
             }
         }
 
@@ -177,7 +183,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
 
         private static string DateTimeValue(DateTime value)
         {
-            return $"CAST('{value:yyyy-MM-ddTHH-mm-ss}' AS DATETIME)";
+            return $"'{value:yyyy-MM-ddTHH:mm:ss}'";
         }
 
         private static string DecimalValue(decimal value)

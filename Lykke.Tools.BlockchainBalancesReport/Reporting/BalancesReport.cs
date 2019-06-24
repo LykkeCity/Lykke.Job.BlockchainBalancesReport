@@ -13,6 +13,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
         private readonly List<ReportItem> _items;
         private bool _saved;
         private readonly IReadOnlyCollection<IReportRepository> _reportRepositories;
+        private readonly DateTime _date;
 
         public BalancesReport(
             ILoggerFactory loggerFactory,
@@ -47,6 +48,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                 );
             }
 
+            _date = s.BalancesAt;
             _reportRepositories = repositories;
         }
 
@@ -66,6 +68,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
 
             _items.Add(new ReportItem
             {
+                Date = _date,
                 BlockchainType = blockchainType,
                 AddressName = addressName,
                 Address = address,
