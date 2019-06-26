@@ -168,10 +168,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
 
             if (address.Equals(operation.Into, StringComparison.InvariantCultureIgnoreCase))
             {
-                return (GetAsset(operation), amount);
+                return (_nativeAssetCode, amount);
             }
 
-            return (GetAsset(operation), -amount);
+            return (_nativeAssetCode, -amount);
         }
 
         private string GetAsset(HorizonAccountOperation operation)
