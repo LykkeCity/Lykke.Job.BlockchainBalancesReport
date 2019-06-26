@@ -52,7 +52,26 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
                 })
                 .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
                 .ExecuteAsync(async () => await _eosAuthorityClient.GetAccountGenesisAsync(address));
-            
+
+            var tokensListResponse = await Policy
+                .Handle<Exception>(ex =>
+                {
+                    _logger.LogWarning(ex, $"Failed to get tokens list of {address}. Operation will be retried.");
+                    return true;
+                })
+                .OrResult<EosParkApiAccountTokensListResponse>(x =>
+                {
+                    if (x.ErrNo != 0)
+                    {
+                        _logger.LogWarning($"Failed to get tokens list of {address}: {x.ErrNo} - {x.ErrMsg}. Operation will be retried.");
+                        return true;
+                    }
+                    return false;
+                })
+                .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
+                .ExecuteAsync(async () => await _eosParkClient.GetAccountTokensList(address));
+            var tokenCodes = tokensListResponse.Data.SymbolList.Select(x => x.Code).ToHashSet();
+
             do
             {
                 var response = await Policy
@@ -83,6 +102,11 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
                     }
 
                     if (tx.Timestamp > at)
+                    {
+                        continue;
+                    }
+
+                    if (!tokenCodes.Contains(tx.Code))
                     {
                         continue;
                     }

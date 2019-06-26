@@ -29,5 +29,18 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.EosParkApi
                 })
                 .GetJsonAsync<EosParkApiAccountTransactionsResponse>();
         }
+
+        public async Task<EosParkApiAccountTokensListResponse> GetAccountTokensList(string account)
+        {
+            return await _url
+                .SetQueryParams(new
+                {
+                    module = "account",
+                    action = "get_token_list",
+                    apikey = _apiKey,
+                    account = account
+                })
+                .GetJsonAsync<EosParkApiAccountTokensListResponse>();
+        }
     }
 }
