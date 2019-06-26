@@ -11,6 +11,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
         [EnumMember(Value = "payment")]
         Payment,
         [EnumMember(Value = "path_payment")]
-        PathPayment
+        PathPayment,
+        [EnumMember(Value = "change_trust")]
+        ChangeTrust
+
     };
 }

@@ -6,6 +6,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar;
@@ -51,6 +52,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, DashBalanceProvider>();
             services.AddTransient<IBalanceProvider, EosBalanceProvider>();
             services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
+            services.AddTransient<IBalanceProvider, KinBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -61,6 +63,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, DashExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, EosExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, StellarExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, KinExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -72,6 +75,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<DashSettings>(configuration.GetSection("Dash"));
             services.Configure<EosSettings>(configuration.GetSection("Eos"));
             services.Configure<StellarSettings>(configuration.GetSection("Stellar"));
+            services.Configure<KinSettings>(configuration.GetSection("Kin"));
 
             ServiceProvider = services.BuildServiceProvider();
         }

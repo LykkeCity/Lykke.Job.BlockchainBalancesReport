@@ -12,7 +12,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
         public string PagingToken { get; set; }
 
         [JsonProperty("transaction_successful")]
-        public bool TransactionSuccessful { get; set; }
+        public bool? TransactionSuccessful { get; set; }
 
         [JsonProperty("source_account")]
         public string SourceAccount { get; set; }
@@ -40,6 +40,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
 
         [JsonProperty("asset_type", NullValueHandling = NullValueHandling.Ignore)]
         public string AssetType { get; set; }
+
+        [JsonProperty("asset_code", NullValueHandling = NullValueHandling.Ignore)]
+        public string AssetCode { get; set; }
 
         [JsonProperty("from", NullValueHandling = NullValueHandling.Ignore)]
         public string From { get; set; }

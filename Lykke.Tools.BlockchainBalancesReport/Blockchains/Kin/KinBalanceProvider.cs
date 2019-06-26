@@ -6,21 +6,21 @@ using Lykke.Tools.BlockchainBalancesReport.Clients.Horizon;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin
 {
-    public class StellarBalanceProvider : IBalanceProvider
+    public class KinBalanceProvider : IBalanceProvider
     {
-        public string BlockchainType => "Stellar";
+        public string BlockchainType => "Kin";
 
         private readonly HorizonBalanceProvider _horizonBalanceProvider;
 
-        public StellarBalanceProvider(IOptions<StellarSettings> settings)
+        public KinBalanceProvider(IOptions<KinSettings> settings)
         {
             _horizonBalanceProvider = new HorizonBalanceProvider
             (
                 settings.Value.HorizonUrl,
-                nativeAssetMultiplier: 0.0000001M,
-                nativeAssetCode: "XLM"
+                nativeAssetMultiplier: 0.00001M,
+                nativeAssetCode: "KIN"
             );
         }
 
@@ -33,8 +33,8 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar
 
         private static (string BlockchainAsset, string AssetId) GetBalancesKey(string assetType)
         {
-            return assetType == "XLM"
-                ? ("XLM", "b5a0389c-fe57-425f-ab17-af41638f6b89")
+            return assetType == "KIN"
+                ? ("KIN", "568637d4-2b03-4f66-972e-b947a40f2771")
                 : (assetType, null);
         }
     }
