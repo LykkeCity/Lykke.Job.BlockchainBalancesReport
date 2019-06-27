@@ -29,7 +29,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             var stream = File.Open(_filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
             using (var writer = new StreamWriter(stream, Encoding.UTF8))
             {
-                await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,blockchain asset,asset ID,balance,explorer");
+                await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,asset,balance,blockchain asset ID,asset ID,explorer");
 
                 foreach (var i in items.OrderBy(x => x.BlockchainType).ThenBy(x => x.AddressName))
                 {
@@ -37,9 +37,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                     await writer.WriteAsync($"{i.BlockchainType},");
                     await writer.WriteAsync($"{i.AddressName},");
                     await writer.WriteAsync($"{i.Address},");
-                    await writer.WriteAsync($"{i.BlockchainAsset},");
-                    await writer.WriteAsync($"{i.AssetId},");
+                    await writer.WriteAsync($"{i.Asset.Name},");
                     await writer.WriteAsync($"{i.Balance.ToString(CultureInfo.InvariantCulture)},");
+                    await writer.WriteAsync($"{i.Asset.BlockchainId},");
+                    await writer.WriteAsync($"{i.Asset.LykkeId},");
                     await writer.WriteLineAsync(i.ExplorerUrl);
                 }
             }

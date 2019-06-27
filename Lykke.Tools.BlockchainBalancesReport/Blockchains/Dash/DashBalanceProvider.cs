@@ -24,7 +24,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash
             _client = new BlockCypherApiClient(settings.Value.BlockCypherApiUrl);
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var before = 0L;
             var balance = 0L;
@@ -58,9 +58,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash
             }
             while (true);
 
-            return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
+            return new Dictionary<Asset, decimal>
             {
-                {("DASH", "4d498e43-956f-45ee-be07-8bb435003f26"), balance / 100000000M}
+                {new Asset("DASH", "DASH", "4d498e43-956f-45ee-be07-8bb435003f26"), balance / 100000000M}
             };
         }
     }

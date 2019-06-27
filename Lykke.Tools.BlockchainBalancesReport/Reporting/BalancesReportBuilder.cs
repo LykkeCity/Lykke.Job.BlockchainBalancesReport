@@ -72,17 +72,16 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
                     .ExecuteAsync(async () => await balanceProvider.GetBalancesAsync(address, settings.BalancesAt));
                 
-                foreach (var ((blockchainAsset, assetId), balance) in assetBalances)
+                foreach (var (asset, balance) in assetBalances)
                 {
-                    var explorerUrl = explorerUrlFormatter?.Format(address, blockchainAsset);
+                    var explorerUrl = explorerUrlFormatter?.Format(address, asset);
 
                     _report.AddBalance
                     (
                         blockchainType,
                         addressName,
                         address,
-                        blockchainAsset,
-                        assetId,
+                        asset,
                         balance,
                         explorerUrl
                     );

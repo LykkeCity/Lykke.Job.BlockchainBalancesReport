@@ -58,7 +58,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             }
         }
 
-        private async Task EnsureTableIsCreatedAsync(SqlConnection connection)
+        private static async Task EnsureTableIsCreatedAsync(SqlConnection connection)
         {
             try
             {
@@ -72,9 +72,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                             blockchain varchar(64) not null,
                             addressName varchar(64) not null,
                             address varchar(128) not null,
-                            blockchainAsset varchar(16) not null,
-                            assetId varchar(64),
+                            assetName varchar(16) not null,
                             balance decimal(38, 16) not null,
+                            blockchainAsset varchar(32) not null,
+                            assetId varchar(64),                            
                             explorerUrl varchar(256)
 
                             constraint HotWalletBalances_pk primary key (date, blockchain, address, blockchainAsset)
@@ -98,7 +99,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             }
         }
 
-        private async Task RemoveItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
+        private static async Task RemoveItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
         {
             var sqlBuilder = new StringBuilder();
 
@@ -119,7 +120,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                     date = {DateTimeValue(item.Date)} and
                     blockchain = {StringValue(item.BlockchainType)} and
                     address = {StringValue(item.Address)} and
-                    blockchainAsset = {StringValue(item.BlockchainAsset)}
+                    blockchainAsset = {StringValue(item.Asset.BlockchainId)}
                     {(item == lastItem ? "" : "or")}"
                 );
             }
@@ -127,7 +128,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             await ExecuteNonQueryCommandAsync(connection, sqlBuilder.ToString());
         }
 
-        private async Task InsertItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
+        private static async Task InsertItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
         {
             var sqlBuilder = new StringBuilder();
 
@@ -140,9 +141,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                     blockchain,
                     addressName,
                     address,
-                    blockchainAsset,
-                    assetId,
+                    assetName,
                     balance,
+                    blockchainAsset,
+                    assetId,                    
                     explorerUrl
                 )
                 values"
@@ -160,9 +162,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                         {StringValue(item.BlockchainType)},
                         {StringValue(item.AddressName)},
                         {StringValue(item.Address)},
-                        {StringValue(item.BlockchainAsset)},
-                        {StringValue(item.AssetId)},
+                        {StringValue(item.Asset.Name)},
                         {DecimalValue(item.Balance)},
+                        {StringValue(item.Asset.BlockchainId)},
+                        {StringValue(item.Asset.LykkeId)},                        
                         {StringValue(item.ExplorerUrl)}
                     ){(item == lastItem ? ";" : ",")}"
                 );

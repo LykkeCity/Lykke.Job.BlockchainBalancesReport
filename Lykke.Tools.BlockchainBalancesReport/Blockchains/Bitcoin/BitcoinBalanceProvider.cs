@@ -19,8 +19,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
             _client = new NinjaClient(settings.Value.NinjaUrl);
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
-            string address, 
+        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
             string continuation = null;
@@ -40,9 +39,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin
 
             var balance = satoshiBalance * 0.00000001M;
 
-            return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
+            return new Dictionary<Asset, decimal>
             {
-                {(BlockchainAsset: "BTC", AssetId: "BTC"), balance}
+                {new Asset("BTC", "BTC", "BTC"), balance}
             };
         }
     }

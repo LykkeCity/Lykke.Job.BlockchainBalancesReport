@@ -19,6 +19,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
         private readonly ILogger<EosBalanceProvider> _logger;
         private readonly EosParkApiClient _eosParkClient;
         private readonly EosAuthorityApiClient _eosAuthorityClient;
+        private readonly (string Code, string Symbol) _nativeAsset;
 
         public EosBalanceProvider(
             ILogger<EosBalanceProvider> logger,
@@ -27,12 +28,14 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
             _logger = logger;
             _eosParkClient = new EosParkApiClient(settings.Value.ParkApiUrl, settings.Value.ApiKey);
             _eosAuthorityClient = new EosAuthorityApiClient(settings.Value.EosAuthorityUrl);
+
+            _nativeAsset = ("eosio.token", "EOS");
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var page = 1;
-            var balances = new Dictionary<string, decimal>();
+            var balances = new Dictionary<(string Code, string Symbol), decimal>();
             var transactionsRead = 0;
 
             var genesisResponseTask = Policy
@@ -116,13 +119,13 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
                         ? txAmount
                         : -txAmount;
 
-                    if (!balances.TryGetValue(tx.Symbol, out var balance))
+                    if (!balances.TryGetValue((tx.Code, tx.Symbol), out var balance))
                     {
-                        balances.Add(tx.Symbol, balanceChange);
+                        balances.Add((tx.Code, tx.Symbol), balanceChange);
                     }
                     else
                     {
-                        balances[tx.Symbol] = balance + balanceChange;
+                        balances[(tx.Code, tx.Symbol)] = balance + balanceChange;
                     }
                 }
 
@@ -149,24 +152,24 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
                     throw new NotSupportedException($"Check if genesis balance is calculated correctly for {address}");
                 }
 
-                if (!balances.TryGetValue("EOS", out var balance))
+                if (!balances.TryGetValue(_nativeAsset, out var balance))
                 {
-                    balances.Add("EOS", genesisBalance);
+                    balances.Add(_nativeAsset, genesisBalance);
                 }
                 else
                 {
-                    balances["EOS"] = balance + genesisBalance;
+                    balances[_nativeAsset] = balance + genesisBalance;
                 }
             }
 
-            return balances.ToDictionary(x => GetBalancesKey(x.Key), x => x.Value);
+            return balances.ToDictionary(x => GetBalancesKey(x.Key.Code, x.Key.Symbol), x => x.Value);
         }
 
-        private static (string BlockchainAsset, string AssetId) GetBalancesKey(string symbol)
+        private Asset GetBalancesKey(string code, string symbol)
         {
-            return symbol == "EOS" 
-                ? (symbol, "782e7e92-2ce0-4b21-b425-6096983351af") 
-                : (symbol, null);
+            return code == _nativeAsset.Code
+                ? new Asset(symbol, code, "782e7e92-2ce0-4b21-b425-6096983351af") 
+                : new Asset(symbol, code, null);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -56,8 +57,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
             string blockchainType, 
             string addressName, 
             string address, 
-            string blockchainAsset,
-            string assetId,
+            Asset asset,
             decimal balance, 
             string explorerUrl)
         {
@@ -72,8 +72,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                 BlockchainType = blockchainType,
                 AddressName = addressName,
                 Address = address,
-                BlockchainAsset = blockchainAsset,
-                AssetId = assetId,
+                Asset = asset,
                 Balance = balance,
                 ExplorerUrl = explorerUrl
             });

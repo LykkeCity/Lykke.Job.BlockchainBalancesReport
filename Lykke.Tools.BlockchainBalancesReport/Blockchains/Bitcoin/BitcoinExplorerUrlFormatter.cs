@@ -4,7 +4,7 @@
     {
         public string BlockchainType => "Bitcoin";
 
-        public string Format(string address, string asset)
+        public string Format(string address, Asset asset)
         {
             return $"https://blockchair.com/bitcoin/address/{address}";
         }

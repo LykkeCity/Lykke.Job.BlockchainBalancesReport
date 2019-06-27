@@ -7,6 +7,6 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
     public interface IBalanceProvider
     {
         string BlockchainType { get; }
-        Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(string address, DateTime at);
+        Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at);
     }
 }

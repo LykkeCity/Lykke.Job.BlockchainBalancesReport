@@ -32,15 +32,14 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin
             );
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
-            string address,
+        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
+            return new Dictionary<Asset, decimal>
             {
-                {("LTC", "2971fbd8-8cbc-4797-8823-9fbde8be3b1c"), balance}
+                {new Asset("LTC", "LTC", "2971fbd8-8cbc-4797-8823-9fbde8be3b1c"), balance}
             };
         }
 

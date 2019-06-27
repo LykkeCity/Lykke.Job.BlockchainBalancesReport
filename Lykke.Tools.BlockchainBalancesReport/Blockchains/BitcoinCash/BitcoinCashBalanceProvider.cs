@@ -34,15 +34,14 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash
             );
         }
 
-        public async Task<IReadOnlyDictionary<(string BlockchainAsset, string AssetId), decimal>> GetBalancesAsync(
-            string address,
+        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<(string BlockchainAsset, string AssetId), decimal>
+            return new Dictionary<Asset, decimal>
             {
-                {("BCH", "2a34d6a6-5839-40e5-836f-c1178fa09b89"), balance}
+                {new Asset("BCH", "BCH", "2a34d6a6-5839-40e5-836f-c1178fa09b89"), balance}
             };
         }
         
