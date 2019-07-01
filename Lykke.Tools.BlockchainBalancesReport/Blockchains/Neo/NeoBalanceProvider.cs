@@ -48,7 +48,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
                 }
             }
 
-            return new Asset(blockchainAssetName, "Neo", lykkeAssetId);
+            return new Asset(blockchainAssetName, blockchainAssetName, lykkeAssetId);
         } 
     }
 }
