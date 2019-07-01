@@ -8,6 +8,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash;
@@ -53,6 +54,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, EosBalanceProvider>();
             services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
             services.AddTransient<IBalanceProvider, KinBalanceProvider>();
+            services.AddTransient<IBalanceProvider, NeoBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -76,6 +78,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<EosSettings>(configuration.GetSection("Eos"));
             services.Configure<StellarSettings>(configuration.GetSection("Stellar"));
             services.Configure<KinSettings>(configuration.GetSection("Kin"));
+            services.Configure<NeoSettings>(configuration.GetSection("Neo"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
