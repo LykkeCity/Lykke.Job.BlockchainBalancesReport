@@ -17,7 +17,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
             _neoScanClient = new NeoScanClient(settings.Value.NeoScanBaseUrl);
         }
 
-        public string BlockchainType => "NEO";
+        public string BlockchainType => "Neo";
 
         public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {

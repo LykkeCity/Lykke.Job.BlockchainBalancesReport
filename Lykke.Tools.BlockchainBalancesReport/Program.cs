@@ -66,6 +66,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, EosExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, StellarExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, KinExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, NeoExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
