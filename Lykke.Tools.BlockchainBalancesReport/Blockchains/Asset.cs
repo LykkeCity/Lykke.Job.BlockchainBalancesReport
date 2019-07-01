@@ -1,9 +1,24 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
+﻿using System;
+
+namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
 {
-    public class Asset
+    public class Asset:IEquatable<Asset>
     {
-        protected bool Equals(Asset other)
+        public string BlockchainId { get; }
+        public string LykkeId { get; }
+        public string Name { get; }
+
+        public Asset(string name, string blockchainId, string lykkeId)
         {
+            Name = name;
+            BlockchainId = blockchainId;
+            LykkeId = lykkeId;
+        }
+
+        public bool Equals(Asset other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
             return string.Equals(BlockchainId, other.BlockchainId) && string.Equals(LykkeId, other.LykkeId) && string.Equals(Name, other.Name);
         }
 
@@ -24,17 +39,6 @@
                 hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
                 return hashCode;
             }
-        }
-
-        public string BlockchainId { get; }
-        public string LykkeId { get; }
-        public string Name { get; }
-
-        public Asset(string name, string blockchainId, string lykkeId)
-        {
-            Name = name;
-            BlockchainId = blockchainId;
-            LykkeId = lykkeId;
         }
     }
 }
