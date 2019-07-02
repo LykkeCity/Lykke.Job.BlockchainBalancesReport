@@ -5,6 +5,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
@@ -55,6 +56,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
             services.AddTransient<IBalanceProvider, KinBalanceProvider>();
             services.AddTransient<IBalanceProvider, NeoBalanceProvider>();
+            services.AddTransient<IBalanceProvider, DecredBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -67,6 +69,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, StellarExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, KinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, NeoExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, DecredExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -80,6 +83,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<StellarSettings>(configuration.GetSection("Stellar"));
             services.Configure<KinSettings>(configuration.GetSection("Kin"));
             services.Configure<NeoSettings>(configuration.GetSection("Neo"));
+            services.Configure<DecredSettings>(configuration.GetSection("Decred"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
