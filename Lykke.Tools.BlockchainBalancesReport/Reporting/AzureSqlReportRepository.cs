@@ -72,9 +72,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                             blockchain varchar(64) not null,
                             addressName varchar(64) not null,
                             address varchar(128) not null,
-                            assetName varchar(16) not null,
+                            assetName varchar(32) not null,
                             balance decimal(38, 16) not null,
-                            blockchainAsset varchar(32) not null,
+                            blockchainAsset varchar(64) not null,
                             assetId varchar(64),                            
                             explorerUrl varchar(256)
 
@@ -163,7 +163,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Reporting
                         {StringValue(item.AddressName)},
                         {StringValue(item.Address)},
                         {StringValue(item.Asset.Name)},
-                        {DecimalValue(item.Balance)},
+                        {DecimalValue(Math.Round(item.Balance, 16))},
                         {StringValue(item.Asset.BlockchainId)},
                         {StringValue(item.Asset.LykkeId)},                        
                         {StringValue(item.ExplorerUrl)}

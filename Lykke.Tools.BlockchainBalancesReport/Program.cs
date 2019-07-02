@@ -6,6 +6,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ethereum;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
@@ -53,6 +54,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, EosBalanceProvider>();
             services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
             services.AddTransient<IBalanceProvider, KinBalanceProvider>();
+            services.AddTransient<IBalanceProvider, EthereumBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -64,6 +66,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, EosExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, StellarExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, KinExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, EthereumExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -76,6 +79,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<EosSettings>(configuration.GetSection("Eos"));
             services.Configure<StellarSettings>(configuration.GetSection("Stellar"));
             services.Configure<KinSettings>(configuration.GetSection("Kin"));
+            services.Configure<EthereumSettings>(configuration.GetSection("Ethereum"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
