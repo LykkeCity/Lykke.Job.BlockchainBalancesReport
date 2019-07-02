@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.NeoScan;
+using Flurl;
+using Flurl.Http;
+using Lykke.Tools.BlockchainBalancesReport.Clients.NeoScan.Contracts;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -10,45 +12,94 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
 {
     public class NeoBalanceProvider: IBalanceProvider
     {
-        private readonly NeoScanClient _neoScanClient;
+        private const string NeoBlockchainAssetId = "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
+        private const string GasBlockchainAssetId = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
 
-        public NeoBalanceProvider(IOptions<NeoSettings> settings)
+        private readonly string _baseUrl;
+
+        private readonly Asset _neoAsset;
+        private readonly Asset _gasAsset;
+
+        // ReSharper disable once UnusedMember.Global
+        public NeoBalanceProvider(IOptions<NeoSettings> settings):this(settings.Value.NeoScanBaseUrl)
         {
-            _neoScanClient = new NeoScanClient(settings.Value.NeoScanBaseUrl);
+        }
+
+        public NeoBalanceProvider(string baseUrl)
+        {
+            _baseUrl = baseUrl;
+
+            _neoAsset = BuildAsset(NeoBlockchainAssetId);
+            _gasAsset = BuildAsset(GasBlockchainAssetId);
         }
 
         public string BlockchainType => "Neo";
 
         public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
-            var balances =await _neoScanClient.GetBalanceAsync(address, at);
+            var result = new Dictionary<Asset, decimal>
+            {
+                {_neoAsset, 0},
+                {_gasAsset, 0}
+            };
 
-            return balances.ToDictionary(p => BuildAsset(p.Key), p => p.Value);
+            var page = 0;
+            var proccedNext = true;
+            while (proccedNext)
+            {
+                page++;
+                var batch = await GetJson<GetAddressAbstractResponse>($"/get_address_abstracts/{address}/{page}");
+
+                foreach (var entry in batch.Entries.Where(p => DateTimeOffset.FromUnixTimeSeconds(p.Time) <= at))
+                {
+                    var asset = BuildAsset(entry.Asset);
+
+                    var sum = result.ContainsKey(asset) ? result[asset] : 0m;
+
+                    var isIncomingAmount = string.Equals(address, entry.AddressTo);
+
+                    if (isIncomingAmount)
+                    {
+                        sum += entry.Amount;
+                    }
+                    else
+                    {
+                        sum -= entry.Amount;
+                    }
+
+                    result[asset] = sum;
+                }
+
+                
+                proccedNext = batch.Entries.Any();
+            }
+
+            return result;
+        }
+
+
+        private async Task<T> GetJson<T>(string segment)
+        {
+            return await _baseUrl.AppendPathSegment(segment).GetJsonAsync<T>();
         }
 
         private Asset BuildAsset(string blockchainAssetName)
         {
-            string lykkeAssetId;
             switch (blockchainAssetName)
             {
-                case "NEO":
+                case NeoBlockchainAssetId:
                 {
-                    lykkeAssetId = "ac2e579f-187b-4429-8d60-bea6e4f65f76";
-                    break;
+                    return new Asset("Neo", blockchainAssetName, "ac2e579f-187b-4429-8d60-bea6e4f65f76");
                 }
-                case "GAS":
+                case GasBlockchainAssetId:
                 {
-                    lykkeAssetId = "f1ccf1dd-9008-4999-adc8-2cb587717083";
-                    break;
+                    return new Asset("Gas", blockchainAssetName, "f1ccf1dd-9008-4999-adc8-2cb587717083");
                 }
                 default:
                 {
-                    lykkeAssetId = null;
-                    break;
+                    return new Asset(blockchainAssetName, blockchainAssetName, null);
                 }
             }
-
-            return new Asset(blockchainAssetName, blockchainAssetName, lykkeAssetId);
         } 
     }
 }

@@ -40,5 +40,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
                 return hashCode;
             }
         }
+
+        public override string ToString()
+        {
+            return $"Asset : {Name}";
+        }
     }
 }

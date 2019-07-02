@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.NeoScan;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Xunit;
 
 namespace Tests
@@ -11,27 +13,31 @@ namespace Tests
         [Fact]
         public async Task CanCalculateBalanceAtPointOfTime()
         {
-            var balanceProvider = new NeoScanClient("https://neoscan.io/api/main_net/v1/");
+            var balanceProvider = new NeoBalanceProvider("https://neoscan.io/api/main_net/v1/");
 
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<string, decimal> result)>
+            var neoAsset = new Asset("Neo", "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b", "ac2e579f-187b-4429-8d60-bea6e4f65f76");
+            var gasAsset = new Asset("Gas", "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7", "f1ccf1dd-9008-4999-adc8-2cb587717083");
+            var seasAsset = new Asset("de7be47c4c93f1483a0a3fff556a885a68413d97", "de7be47c4c93f1483a0a3fff556a885a68413d97", null);
+
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
             {
-                ("AYCFkFWhpxXgGzFjnMofYcJMUJ9Z8eneV3", DateTime.Parse("2019-07-01T19:00:00+0000"), new Dictionary<string, decimal>
+                ("AYCFkFWhpxXgGzFjnMofYcJMUJ9Z8eneV3", DateTime.Parse("2019-07-01T19:00:00+0000"), new Dictionary<Asset, decimal>
                 {
-                    {"NEO", 1289 },
-                    {"GAS", 4.30532041m },
-                    {"SEAS", 0 }
+                    {neoAsset, 1289 },
+                    {gasAsset, 4.30532041m },
+                    {seasAsset, 12 }
                 }),
-                ("AYCFkFWhpxXgGzFjnMofYcJMUJ9Z8eneV3", DateTime.Parse("2019-07-01T12:23:50+0000"), new Dictionary<string, decimal>
+                ("AYCFkFWhpxXgGzFjnMofYcJMUJ9Z8eneV3", DateTime.Parse("2019-07-01T12:23:50+0000"), new Dictionary<Asset, decimal>
                 {
-                    {"NEO", 1259 },
-                    {"GAS", 0 },
-                    {"SEAS", 0 }
+                    {neoAsset, 1259 },
+                    {gasAsset, 0 },
+                    {seasAsset, 12 }
                 }),
             };
 
             foreach (var assert in expectations)
             {
-                var result = await balanceProvider.GetBalanceAsync(assert.address, assert.dateTime);
+                var result = await balanceProvider.GetBalancesAsync(assert.address, assert.dateTime);
 
                 Assert.Equal(result, assert.result);
             }
