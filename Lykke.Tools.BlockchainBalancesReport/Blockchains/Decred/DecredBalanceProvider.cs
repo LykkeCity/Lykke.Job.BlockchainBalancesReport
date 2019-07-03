@@ -16,7 +16,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred
 
         public DecredBalanceProvider(
             ILoggerFactory loggerFactory,
-            IOptions<LiteCoinSettings> settings)
+            IOptions<DecredSettings> settings)
         {
             _balanceProvider = new InsightApiBalanceProvider
             (
