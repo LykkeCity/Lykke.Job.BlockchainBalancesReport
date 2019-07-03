@@ -20,6 +20,9 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.BitsharesExploler
         [JsonProperty("amount_")]
         public Amount Amount { get; set; }
 
+        [JsonProperty("fee")]
+        public Amount Fee { get; set; }
+
         [JsonProperty("to")]
         public string To { get; set; }
     }

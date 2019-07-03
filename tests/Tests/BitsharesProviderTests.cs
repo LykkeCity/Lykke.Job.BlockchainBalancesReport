@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares;
 using Xunit;
@@ -22,7 +20,7 @@ namespace Tests
             {
                 ("1.2.1038643", DateTime.Parse("2019-07-03T19:00:00+0000"), new Dictionary<Asset, decimal>
                 {
-                    {bitshresAsset, 35441 }
+                    {bitshresAsset, 35441.40289m }
                 })
             };
 

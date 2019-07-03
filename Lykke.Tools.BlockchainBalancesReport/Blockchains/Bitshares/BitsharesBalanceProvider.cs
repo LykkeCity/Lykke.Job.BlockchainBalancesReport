@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
@@ -62,6 +63,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 proccedNext = batch.Any();
             }
 
+            decimal Align(decimal value, int precision)
+            {
+                return value / (decimal) (Math.Pow(10, precision));
+            }
 
             foreach (var entry in history
                 .Where(p => p.Timestamp <= at && p.Op.Amount != null)
@@ -69,15 +74,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
             {
                 var assetInfo = await GetAssetInfoAsync(entry.Op.Amount.AssetId);
 
-                var sum = result.ContainsKey(assetInfo.asset) ? result[assetInfo.asset] : 0m;
-
-
-                var alignedAmount = entry.Op.Amount.Value / (decimal) (Math.Pow(10, assetInfo.precision));
-
-                if (assetInfo.asset.BlockchainId == "1.3.0")
-                {
-                    alignedAmount = Math.Floor(alignedAmount);
-                }
+                var alignedAmount = Align(entry.Op.Amount.Value, assetInfo.precision);
 
                 decimal balanceChange;
 
@@ -88,9 +85,17 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 }
                 else
                 {
+                    var feeAssetInfo  = await GetAssetInfoAsync(entry.Op.Fee.AssetId);
+                    var alignedFeeAmount =  Align(entry.Op.Fee.Value, feeAssetInfo.precision);
+
+                    var feeSum = result.ContainsKey(assetInfo.asset) ? result[assetInfo.asset] : 0m;
+                    feeSum -= alignedFeeAmount;
+                    result[feeAssetInfo.asset] = feeSum;
+
                     balanceChange = alignedAmount * -1;
                 }
 
+                var sum = result.ContainsKey(assetInfo.asset) ? result[assetInfo.asset] : 0m;
                 sum += balanceChange;
                 result[assetInfo.asset] = sum;
             }
