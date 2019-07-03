@@ -13,15 +13,21 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred
         public string BlockchainType => "Decred";
 
         private readonly InsightApiBalanceProvider _balanceProvider;
+        
+        public DecredBalanceProvider(
+            ILoggerFactory loggerFactory,
+            IOptions<DecredSettings> settings):this(loggerFactory, settings.Value.InsightApiUrl)
+        {
+        }
 
         public DecredBalanceProvider(
             ILoggerFactory loggerFactory,
-            IOptions<DecredSettings> settings)
+            string insightApiUrl)
         {
             _balanceProvider = new InsightApiBalanceProvider
             (
                 loggerFactory.CreateLogger<InsightApiBalanceProvider>(),
-                new InsightApiClient(settings.Value.InsightApiUrl),
+                new InsightApiClient(insightApiUrl),
                 NormalizeOrDefault
             );
         }

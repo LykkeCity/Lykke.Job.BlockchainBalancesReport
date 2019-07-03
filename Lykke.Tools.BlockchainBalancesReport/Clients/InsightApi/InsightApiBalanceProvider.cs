@@ -27,7 +27,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
         {
             decimal balance = 0;
             var page = 0;
-            var atTime = new DateTimeOffset(at, TimeSpan.Zero).ToUnixTimeSeconds();
+            var atTime = new DateTimeOffset(at).ToUnixTimeSeconds();
             var normalizedAddress = _addressNormalizer.Invoke(address);
 
             if (normalizedAddress == null)
