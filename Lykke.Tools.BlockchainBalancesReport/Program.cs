@@ -4,6 +4,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitcoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
@@ -59,6 +60,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, EthereumBalanceProvider>();
             services.AddTransient<IBalanceProvider, NeoBalanceProvider>();
             services.AddTransient<IBalanceProvider, DecredBalanceProvider>();
+            services.AddTransient<IBalanceProvider, BitsharesBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -73,6 +75,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, EthereumExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, NeoExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, DecredExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, BitsharesExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -88,6 +91,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<EthereumSettings>(configuration.GetSection("Ethereum"));
             services.Configure<NeoSettings>(configuration.GetSection("Neo"));
             services.Configure<DecredSettings>(configuration.GetSection("Decred"));
+            services.Configure<BitsharesSettings>(configuration.GetSection("Bitshares"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
