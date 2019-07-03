@@ -58,11 +58,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 
                 history.AddRange(batch);
                 page++;
-
-
-
-
-
+                
                 proccedNext = batch.Any();
             }
 
@@ -75,8 +71,6 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
 
                 var sum = result.ContainsKey(assetInfo.asset) ? result[assetInfo.asset] : 0m;
 
-                var isIncomingAmount = string.Equals(address, entry.Op.To);
-
 
                 var alignedAmount = entry.Op.Amount.Value / (decimal) (Math.Pow(10, assetInfo.precision));
 
@@ -86,6 +80,8 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 }
 
                 decimal balanceChange;
+
+                var isIncomingAmount = string.Equals(address, entry.Op.To);
                 if (isIncomingAmount)
                 {
                     balanceChange = alignedAmount;
@@ -98,8 +94,6 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 sum += balanceChange;
                 result[assetInfo.asset] = sum;
             }
-
-
 
             return result;
         }
