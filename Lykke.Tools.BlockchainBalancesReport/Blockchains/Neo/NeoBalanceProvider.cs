@@ -19,9 +19,11 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
 
         private readonly Asset _neoAsset;
         private readonly Asset _gasAsset;
+        private readonly Dictionary<string, string> _assetNames;
 
         // ReSharper disable once UnusedMember.Global
-        public NeoBalanceProvider(IOptions<NeoSettings> settings):this(settings.Value.NeoScanBaseUrl)
+        public NeoBalanceProvider(IOptions<NeoSettings> settings) :
+            this(settings.Value.NeoScanBaseUrl)
         {
         }
 
@@ -31,6 +33,11 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
 
             _neoAsset = BuildAsset(NeoBlockchainAssetId);
             _gasAsset = BuildAsset(GasBlockchainAssetId);
+
+            _assetNames = new Dictionary<string, string>
+            {
+                {"de7be47c4c93f1483a0a3fff556a885a68413d97", "SEAS"}
+            };
         }
 
         public string BlockchainType => "Neo";
@@ -83,21 +90,26 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
             return await _baseUrl.AppendPathSegment(segment).GetJsonAsync<T>();
         }
 
-        private Asset BuildAsset(string blockchainAssetName)
+        private Asset BuildAsset(string blockchainAssetId)
         {
-            switch (blockchainAssetName)
+            switch (blockchainAssetId)
             {
                 case NeoBlockchainAssetId:
                 {
-                    return new Asset("Neo", blockchainAssetName, "ac2e579f-187b-4429-8d60-bea6e4f65f76");
+                    return new Asset("NEO", blockchainAssetId, "ac2e579f-187b-4429-8d60-bea6e4f65f76");
                 }
                 case GasBlockchainAssetId:
                 {
-                    return new Asset("Gas", blockchainAssetName, "f1ccf1dd-9008-4999-adc8-2cb587717083");
+                    return new Asset("GAS", blockchainAssetId, "f1ccf1dd-9008-4999-adc8-2cb587717083");
                 }
                 default:
                 {
-                    return new Asset(blockchainAssetName, blockchainAssetName, null);
+                    if (!_assetNames.TryGetValue(blockchainAssetId, out var assetName))
+                    {
+                        assetName = blockchainAssetId;
+                    }
+
+                    return new Asset(assetName, blockchainAssetId, null);
                 }
             }
         } 
