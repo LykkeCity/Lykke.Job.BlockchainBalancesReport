@@ -11,6 +11,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ethereum;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Nem;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar;
@@ -61,6 +62,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, NeoBalanceProvider>();
             services.AddTransient<IBalanceProvider, DecredBalanceProvider>();
             services.AddTransient<IBalanceProvider, BitsharesBalanceProvider>();
+            services.AddTransient<IBalanceProvider, NemBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -76,6 +78,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, NeoExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, DecredExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, BitsharesExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, NemExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -92,6 +95,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<NeoSettings>(configuration.GetSection("Neo"));
             services.Configure<DecredSettings>(configuration.GetSection("Decred"));
             services.Configure<BitsharesSettings>(configuration.GetSection("Bitshares"));
+            services.Configure<NemSettings>(configuration.GetSection("Nem"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
