@@ -24,5 +24,16 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
                 })
                 .GetJsonAsync<InsightApiTransactionsResponse>();
         }
+
+        public Task<InsightApiTransactionsResponse2> GetAddressTransactions2(string address, int from)
+        {
+            return _url
+                .AppendPathSegments($"addrs/{address}/txs")
+                .SetQueryParams(new
+                {
+                    from = from
+                })
+                .GetJsonAsync<InsightApiTransactionsResponse2>();
+        }
     }
 }

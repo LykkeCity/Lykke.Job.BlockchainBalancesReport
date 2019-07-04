@@ -63,6 +63,48 @@ namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
             return balance;
         }
 
+        public async Task<decimal> GetBalanceAsync2(string address, DateTime at)
+        {
+            decimal balance = 0;
+            var from = 0;
+            var atTime = new DateTimeOffset(at).ToUnixTimeSeconds();
+            var normalizedAddress = _addressNormalizer.Invoke(address);
+
+            if (normalizedAddress == null)
+            {
+                throw new InvalidOperationException($"Invalid address: {address}");
+            }
+
+            do
+            {
+                var response = await Policy
+                    .Handle<Exception>(ex =>
+                    {
+                        _logger.LogWarning(ex, $"Failed to get transactions page {from} of {address}. Operation will be retried.");
+                        return true;
+                    })
+                    .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
+                    .ExecuteAsync(async () => await _insightApiClient.GetAddressTransactions2(normalizedAddress, from));
+
+                var sum = response.Transactions
+                    .Where(x => x.Time <= atTime)
+                    .Select(x => GetTransactionValue(x, normalizedAddress))
+                    .Sum();
+
+                balance += sum;
+
+                if (!response.Transactions.Any())
+                {
+                    break;
+                }
+
+                from = response.To;
+
+            } while (true);
+
+            return balance;
+        }
+
         private decimal GetTransactionValue(InsightApiTransaction tx, string forAddress)
         {
             var inputs = tx.Inputs

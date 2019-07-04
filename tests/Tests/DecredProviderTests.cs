@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;

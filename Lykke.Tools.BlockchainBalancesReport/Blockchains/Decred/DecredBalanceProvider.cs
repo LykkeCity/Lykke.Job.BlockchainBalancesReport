@@ -35,7 +35,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred
         public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
-            var balance = await _balanceProvider.GetBalanceAsync(address, at);
+            var balance = await _balanceProvider.GetBalanceAsync2(address, at);
 
             return new Dictionary<Asset, decimal>
             {
