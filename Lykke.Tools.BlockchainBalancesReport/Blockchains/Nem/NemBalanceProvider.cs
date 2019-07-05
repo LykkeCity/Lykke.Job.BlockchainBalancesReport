@@ -18,7 +18,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Nem
 
         // ReSharper disable once UnusedMember.Global
         public NemBalanceProvider(IOptions<NemSettings> settings) :
-            this(settings.Value.NemchinaBaseUrl)
+            this(settings.Value.NemChinaBaseUrl)
         {
         }
 

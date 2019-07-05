@@ -2,7 +2,9 @@
 {
     public class NemSettings
     {
-        //http://explorer.nemchina.com/
-        public string NemchinaBaseUrl { get; set; }
+        /// <summary>
+        /// http://explorer.nemchina.com/
+        /// </summary>
+        public string NemChinaBaseUrl { get; set; }
     }
 }

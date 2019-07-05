@@ -5,7 +5,7 @@
         public string BlockchainType => "Nem";
         public string Format(string address, Asset asset)
         {
-            return $"http://explorer.nemchina.com/#/s_account?account{address}";
+            return $"http://explorer.nemchina.com/#/s_account?account={address}";
         }
     }
 }

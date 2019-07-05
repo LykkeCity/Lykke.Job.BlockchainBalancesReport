@@ -20,7 +20,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
 
         // ReSharper disable once UnusedMember.Global
         public BitsharesBalanceProvider(IOptions<BitsharesSettings> settings) :
-            this(settings.Value.ExplolerBaseUrl)
+            this(settings.Value.ExplorerBaseUrl)
         {
         }
 
@@ -43,10 +43,10 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
             var result = new Dictionary<Asset, decimal>();
 
             var page = 0;
-            var proccedNext = true;
+            var proceedNext = true;
 
             var history = new List<AccountHistoryResponse>();
-            while (proccedNext)
+            while (proceedNext)
             {
                 var batch = await _baseUrl.AppendPathSegment("account_history").SetQueryParams
                 (
@@ -60,7 +60,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
                 history.AddRange(batch);
                 page++;
                 
-                proccedNext = batch.Any();
+                proceedNext = batch.Any();
             }
 
             decimal Align(decimal value, int precision)

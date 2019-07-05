@@ -2,7 +2,9 @@
 {
     public class BitsharesSettings
     {
-        //https://explorer.bitshares-kibana.info/ as reference
-        public string ExplolerBaseUrl { get; set; }
+        /// <summary>
+        /// https://explorer.bitshares-kibana.info/ as reference
+        /// </summary>
+        public string ExplorerBaseUrl { get; set; }
     }
 }
