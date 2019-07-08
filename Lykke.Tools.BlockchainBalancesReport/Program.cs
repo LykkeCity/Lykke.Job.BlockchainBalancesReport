@@ -54,7 +54,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, LiteCoinBalanceProvider>();
             services.AddTransient<IBalanceProvider, BitcoinGoldBalanceProvider>();
             services.AddTransient<IBalanceProvider, ZCashBalanceProvider>();
-            services.AddTransient<IBalanceProvider, DashBalanceProvider>();
+            services.AddTransient<IBalanceProvider, DashInsightApiBalanceProvider>();
             services.AddTransient<IBalanceProvider, EosBalanceProvider>();
             services.AddTransient<IBalanceProvider, StellarBalanceProvider>();
             services.AddTransient<IBalanceProvider, KinBalanceProvider>();

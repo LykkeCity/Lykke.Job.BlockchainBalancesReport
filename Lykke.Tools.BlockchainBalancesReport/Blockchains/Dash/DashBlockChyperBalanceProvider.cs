@@ -9,15 +9,15 @@ using Polly;
 
 namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash
 {
-    public class DashBalanceProvider : IBalanceProvider
+    public class DashBlockChyperBalanceProvider : IBalanceProvider
     {
         public string BlockchainType => "Dash";
 
-        private readonly ILogger<DashBalanceProvider> _logger;
+        private readonly ILogger<DashBlockChyperBalanceProvider> _logger;
         private readonly BlockCypherApiClient _client;
 
-        public DashBalanceProvider(
-            ILogger<DashBalanceProvider> logger,
+        public DashBlockChyperBalanceProvider(
+            ILogger<DashBlockChyperBalanceProvider> logger,
             IOptions<DashSettings> settings)
         {
             _logger = logger;
