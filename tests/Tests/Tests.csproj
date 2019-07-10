@@ -16,4 +16,10 @@
     <ProjectReference Include="..\..\Lykke.Tools.BlockchainBalancesReport\Lykke.Tools.BlockchainBalancesReport.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="SteemetResp.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
