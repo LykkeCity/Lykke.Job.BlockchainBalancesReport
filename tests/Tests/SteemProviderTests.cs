@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem;
+using Lykke.Tools.BlockchainBalancesReport.Clients.Steemit;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -21,7 +22,7 @@ namespace Tests
             
             var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
             {
-                ("lykke-exchange", DateTime.Parse("2019-04-07T19:00:00+0000"), new Dictionary<Asset, decimal>
+                ("lykke-exchange", DateTime.Parse("2019-07-10T19:00:00+0000"), new Dictionary<Asset, decimal>
                 {
                     {asset, 2751.324m }
                 })
@@ -40,36 +41,16 @@ namespace Tests
         {
             var respExample =await File.ReadAllTextAsync("SteemetResp.json");
 
-            var typed = Deserialize(respExample).ToList();
+            var typed = SteemetDeserializer.DeserializeTransactionsResp(respExample).ToList();
 
             Assert.NotEmpty(typed);
 
             foreach (var item in typed)
             {
                 Assert.False(string.IsNullOrEmpty(item.txId));
+                Assert.False(string.IsNullOrEmpty(item.from));
+                Assert.False(string.IsNullOrEmpty(item.to));
             }
-        }
-
-        private IEnumerable<(string txId, DateTime from)> Deserialize(string source)
-        {
-            var model = JsonConvert.DeserializeObject<SteemetResp>(source);
-            var txs = model.Result.Select(p => p[1]).ToList();
-
-            foreach (var tx  in txs)
-            {
-                var t = JsonConvert.SerializeObject(tx.op);
-                var t2 = JsonConvert.DeserializeObject<dynamic[]>(t);
-                if (t2[0] == "transfer")
-                {
-
-                    yield return (tx.trx_id, DateTime.Parse(tx.timestamp.ToString()));
-                }
-            }
-        }
-
-        public class SteemetResp
-        {
-            public dynamic[][] Result { get; set; }
         }
     }
 }

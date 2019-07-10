@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Nemchina;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Steemit.Contracts;
+using Lykke.Tools.BlockchainBalancesReport.Clients.Steemit;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -15,7 +13,6 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem
     {
         private readonly string _baseUrl;
         private readonly Asset _steemAsset;
-        private const int Precision = 6;
 
         // ReSharper disable once UnusedMember.Global
         public SteemBalanceProvider(IOptions<SteemSettings> settings) :
@@ -35,51 +32,31 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem
         public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var result = 0m;
-            var page = 0;
-            var proccedNext = true;
 
-            var history = new List<AccountHistoryResponse>();
-            while (proccedNext)
+            var resp = await _baseUrl.PostJsonAsync
+            (
+                new
+                {
+                    id = Guid.NewGuid().ToString(),
+                    jsonrpc = "2.0",
+                    method = "call",
+                    @params = new dynamic[] { "database_api", "get_account_history", new dynamic[] { address, -1, 2000 } }
+                }
+            ).ReceiveString();
+
+            var history = SteemetDeserializer.DeserializeTransactionsResp(resp).ToList();
+            foreach (var entry in history.Where(p => p.timestamp <= at))
             {
-                page++;
-                var batch = await _baseUrl.PostJsonAsync
-                (
-                    new
-                    {
-                        address,
-                        page
-                    }
-                ).ReceiveJson<AccountHistoryResponse[]>();
-                
-                history.AddRange(batch);
-                
-                proccedNext = batch.Any();
+                var isIncomingAmount = string.Equals(address, entry.to);
+                if (isIncomingAmount)
+                {
+                    result += entry.amount;
+                }
+                else
+                {
+                    result -= entry.amount;
+                }
             }
-
-            decimal Align(decimal value)
-            {
-                return value / (decimal) (Math.Pow(10, Precision));
-            }
-
-            //foreach (var entry in history.Where(p => DateTimeOffset.FromUnixTimeSeconds(p.TimeStamp) <= at))
-            //{
-
-            //    var alignedAmount = Align(entry.Amount);
-
-            //    decimal balanceChange;
-
-            //    var isIncomingAmount = string.Equals(address, entry.Recipient);
-            //    if (isIncomingAmount)
-            //    {
-            //        balanceChange = alignedAmount;
-            //    }
-            //    else
-            //    {
-            //        alignedAmount += Align(entry.Fee);
-            //        balanceChange = alignedAmount * -1;
-            //    }
-            //    result += balanceChange;
-            //}
 
             return new Dictionary<Asset, decimal>
             {
