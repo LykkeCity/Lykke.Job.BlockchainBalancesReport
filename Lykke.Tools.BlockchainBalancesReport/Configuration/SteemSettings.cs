@@ -2,7 +2,9 @@
 {
     public class SteemSettings
     {
-        //https://api.steemit.com/
+        /// <summary>
+        /// https://api.steemit.com/
+        /// </summary>
         public string SteemetBaseUrl { get; set; }
     }
 }

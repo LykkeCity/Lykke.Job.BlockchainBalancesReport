@@ -47,7 +47,7 @@ namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem
             var history = SteemetDeserializer.DeserializeTransactionsResp(resp).ToList();
             foreach (var entry in history.Where(p => p.timestamp <= at))
             {
-                var isIncomingAmount = string.Equals(address, entry.to);
+                var isIncomingAmount = string.Equals(address, entry.to, StringComparison.InvariantCultureIgnoreCase);
                 if (isIncomingAmount)
                 {
                     result += entry.amount;
