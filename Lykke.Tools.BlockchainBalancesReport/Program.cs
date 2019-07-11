@@ -14,6 +14,7 @@ using Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Nem;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple;
+using Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar;
 using Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash;
 using Lykke.Tools.BlockchainBalancesReport.Configuration;
@@ -63,6 +64,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IBalanceProvider, DecredBalanceProvider>();
             services.AddTransient<IBalanceProvider, BitsharesBalanceProvider>();
             services.AddTransient<IBalanceProvider, NemBalanceProvider>();
+            services.AddTransient<IBalanceProvider, SteemBalanceProvider>();
 
             services.AddTransient<IExplorerUrlFormatter, BitcoinExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, RippleExplorerUrlFormatter>();
@@ -79,6 +81,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.AddTransient<IExplorerUrlFormatter, DecredExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, BitsharesExplorerUrlFormatter>();
             services.AddTransient<IExplorerUrlFormatter, NemExplorerUrlFormatter>();
+            services.AddTransient<IExplorerUrlFormatter, SteemExplorerUrlFormatter>();
 
             services.Configure<ReportSettings>(configuration.GetSection("Report"));
             services.Configure<BitcoinSettings>(configuration.GetSection("Bitcoin"));
@@ -96,6 +99,7 @@ namespace Lykke.Tools.BlockchainBalancesReport
             services.Configure<DecredSettings>(configuration.GetSection("Decred"));
             services.Configure<BitsharesSettings>(configuration.GetSection("Bitshares"));
             services.Configure<NemSettings>(configuration.GetSection("Nem"));
+            services.Configure<SteemSettings>(configuration.GetSection("Steem"));
 
             ServiceProvider = services.BuildServiceProvider();
         }
