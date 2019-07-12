@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Flurl.Http;
 using Lykke.Job.BlockchainBalancesReport.Clients.Steemit;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
 {
@@ -15,8 +14,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
         private readonly Asset _steemAsset;
 
         // ReSharper disable once UnusedMember.Global
-        public SteemBalanceProvider(IOptions<SteemSettings> settings) :
-            this(settings.Value.SteemetBaseUrl)
+        public SteemBalanceProvider(SteemSettings settings) :
+            this(settings.SteemetBaseUrl)
         {
         }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.Horizon;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Kin
 {
@@ -14,11 +13,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Kin
 
         private readonly HorizonBalanceProvider _horizonBalanceProvider;
 
-        public KinBalanceProvider(IOptions<KinSettings> settings)
+        public KinBalanceProvider(KinSettings settings)
         {
             _horizonBalanceProvider = new HorizonBalanceProvider
             (
-                settings.Value.HorizonUrl,
+                settings.HorizonUrl,
                 nativeAssetMultiplier: 0.00001M,
                 nativeAssetCode: "KIN"
             );

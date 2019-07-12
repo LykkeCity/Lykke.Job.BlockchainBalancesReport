@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 using NBitcoin;
 using NBitcoin.Altcoins;
 
@@ -19,7 +18,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.LiteCoin
 
         public LiteCoinBalanceProvider(
             ILogFactory logFactory,
-            IOptions<LiteCoinSettings> settings)
+            LiteCoinSettings settings)
         {
             Litecoin.Instance.EnsureRegistered();
 
@@ -27,7 +26,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.LiteCoin
             _balanceProvider = new InsightApiBalanceProvider
             (
                 logFactory,
-                new InsightApiClient(settings.Value.InsightApiUrl),
+                new InsightApiClient(settings.InsightApiUrl),
                 NormalizeOrDefault
             );
         }

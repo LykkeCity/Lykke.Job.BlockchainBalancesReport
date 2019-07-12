@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.Ninja;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitcoin
 {
@@ -14,9 +13,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitcoin
 
         private readonly NinjaClient _client;
 
-        public BitcoinBalanceProvider(IOptions<BitcoinSettings> settings)
+        public BitcoinBalanceProvider(BitcoinSettings settings)
         {
-            _client = new NinjaClient(settings.Value.NinjaUrl);
+            _client = new NinjaClient(settings.NinjaUrl);
         }
 
         public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,

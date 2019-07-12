@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.Horizon;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
 {
@@ -14,11 +13,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
 
         private readonly HorizonBalanceProvider _horizonBalanceProvider;
 
-        public StellarBalanceProvider(IOptions<StellarSettings> settings)
+        public StellarBalanceProvider(StellarSettings settings)
         {
             _horizonBalanceProvider = new HorizonBalanceProvider
             (
-                settings.Value.HorizonUrl,
+                settings.HorizonUrl,
                 nativeAssetMultiplier: 0.0000001M,
                 nativeAssetCode: "XLM"
             );

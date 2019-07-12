@@ -6,7 +6,6 @@ using Flurl;
 using Flurl.Http;
 using Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExploler;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
@@ -18,8 +17,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
         private readonly Dictionary<string, (string assetName, string lykkeAssetId)> _predefinedAssets;
 
         // ReSharper disable once UnusedMember.Global
-        public BitsharesBalanceProvider(IOptions<BitsharesSettings> settings) :
-            this(settings.Value.ExplorerBaseUrl)
+        public BitsharesBalanceProvider(BitsharesSettings settings) :
+            this(settings.ExplorerBaseUrl)
         {
         }
 

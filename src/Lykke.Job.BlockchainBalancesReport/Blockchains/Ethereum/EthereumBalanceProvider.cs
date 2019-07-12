@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.Samurai;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
 {
@@ -15,9 +14,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
         private readonly SamuraiClient _client;
         private readonly Dictionary<string, SamuraiErc20TokenResponse> _tokensCache;
 
-        public EthereumBalanceProvider(IOptions<EthereumSettings> settings)
+        public EthereumBalanceProvider(EthereumSettings settings)
         {
-            _client = new SamuraiClient(settings.Value.SamuraiApiUrl);
+            _client = new SamuraiClient(settings.SamuraiApiUrl);
             _tokensCache = new Dictionary<string, SamuraiErc20TokenResponse>();
         }
 

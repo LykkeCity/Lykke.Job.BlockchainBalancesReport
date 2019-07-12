@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
 {
@@ -16,9 +15,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
         
         public DecredBalanceProvider(
             ILogFactory logFactory,
-            IOptions<DecredSettings> settings) : 
+            DecredSettings settings) : 
             
-            this(logFactory, settings.Value.InsightApiUrl)
+            this(logFactory, settings.InsightApiUrl)
         {
         }
 

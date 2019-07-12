@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Blockchains;
 using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
@@ -12,14 +11,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
     public class BalancesReportBuilder
     {
         private readonly ILogger<BalancesReportBuilder> _logger;
-        private readonly IOptions<ReportSettings> _reportSettings;
+        private readonly ReportSettings _reportSettings;
         private readonly BalanceProvidersFactory _balanceProvidersFactory;
         private readonly ExplorerUrlFormattersFactory _explorerUrlFormattersFactory;
         private readonly BalancesReport _report;
 
         public BalancesReportBuilder(
             ILogger<BalancesReportBuilder> logger,
-            IOptions<ReportSettings> reportSettings,
+            ReportSettings reportSettings,
             BalanceProvidersFactory balanceProvidersFactory,
             ExplorerUrlFormattersFactory explorerUrlFormattersFactory,
             BalancesReport report)
@@ -33,15 +32,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
         public async Task BuildAsync()
         {
-            var settings = _reportSettings.Value;
-            
-            _logger.LogInformation($"Building balances report at {settings.BalancesAt:yyyy-MM-ddTHH:mm:ss} UTC...");
+            _logger.LogInformation($"Building balances report at {_reportSettings.BalancesAt:yyyy-MM-ddTHH:mm:ss} UTC...");
             
             var tasks = new List<Task>();
 
-            foreach (var (blockchainType, namedAddresses) in settings.Addresses)
+            foreach (var (blockchainType, namedAddresses) in _reportSettings.Addresses)
             {
-                tasks.Add(BuildBlockchainReportAsync(blockchainType, namedAddresses, settings));
+                tasks.Add(BuildBlockchainReportAsync(blockchainType, namedAddresses, _reportSettings));
             }
 
             await Task.WhenAll(tasks);

@@ -7,7 +7,6 @@ using Lykke.Job.BlockchainBalancesReport.Clients.EosAuthorityApi;
 using Lykke.Job.BlockchainBalancesReport.Clients.EosParkApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
@@ -23,11 +22,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
 
         public EosBalanceProvider(
             ILogger<EosBalanceProvider> logger,
-            IOptions<EosSettings> settings)
+            EosSettings settings)
         {
             _logger = logger;
-            _eosParkClient = new EosParkApiClient(settings.Value.ParkApiUrl, settings.Value.ApiKey);
-            _eosAuthorityClient = new EosAuthorityApiClient(settings.Value.EosAuthorityUrl);
+            _eosParkClient = new EosParkApiClient(settings.ParkApiUrl, settings.ApiKey);
+            _eosAuthorityClient = new EosAuthorityApiClient(settings.EosAuthorityUrl);
 
             _nativeAsset = ("eosio.token", "EOS");
         }

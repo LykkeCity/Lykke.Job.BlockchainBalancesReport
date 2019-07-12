@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
@@ -18,10 +17,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
 
         public DashBlockChyperBalanceProvider(
             ILogger<DashBlockChyperBalanceProvider> logger,
-            IOptions<DashSettings> settings)
+            DashSettings settings)
         {
             _logger = logger;
-            _client = new BlockCypherApiClient(settings.Value.BlockCypherApiUrl);
+            _client = new BlockCypherApiClient(settings.BlockCypherApiUrl);
         }
 
         public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)

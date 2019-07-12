@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Blockchains;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
@@ -18,38 +17,37 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
         public BalancesReport(
             ILogFactory logFactory,
-            IOptions<ReportSettings> settings)
+            ReportSettings settings)
         {
             _items = new List<ReportItem>();
 
-            var s = settings.Value;
             var repositories = new List<IReportRepository>();
                 
-            if (s.Repositories.File != null)
+            if (settings.Repositories.File != null)
             {
                 repositories.Add
                 (
                     new FileSystemReportRepository
                     (
                         logFactory,
-                        s.Repositories.File
+                        settings.Repositories.File
                     )
                 );
             }
 
-            if (s.Repositories.Sql != null)
+            if (settings.Repositories.Sql != null)
             {
                 repositories.Add
                 (
                     new AzureSqlReportRepository
                     (
                         logFactory,
-                        s.Repositories.Sql
+                        settings.Repositories.Sql
                     )
                 );
             }
 
-            _date = s.BalancesAt;
+            _date = settings.BalancesAt;
             _reportRepositories = repositories;
         }
 

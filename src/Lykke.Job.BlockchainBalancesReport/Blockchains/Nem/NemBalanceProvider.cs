@@ -6,7 +6,6 @@ using Flurl;
 using Flurl.Http;
 using Lykke.Job.BlockchainBalancesReport.Clients.Nemchina;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
 {
@@ -17,8 +16,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
         private const int Precision = 6;
 
         // ReSharper disable once UnusedMember.Global
-        public NemBalanceProvider(IOptions<NemSettings> settings) :
-            this(settings.Value.NemChinaBaseUrl)
+        public NemBalanceProvider(NemSettings settings) :
+            this(settings.NemChinaBaseUrl)
         {
         }
 

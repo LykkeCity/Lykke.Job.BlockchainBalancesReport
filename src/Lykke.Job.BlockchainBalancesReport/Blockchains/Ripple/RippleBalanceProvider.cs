@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.RippleDataApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 {
@@ -15,9 +14,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 
         private readonly RippleDataApiClient _client;
 
-        public RippleBalanceProvider(IOptions<RippleSettings> settings)
+        public RippleBalanceProvider(RippleSettings settings)
         {
-            _client = new RippleDataApiClient(settings.Value.DataApiUrl);
+            _client = new RippleDataApiClient(settings.DataApiUrl);
         }
 
         public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)

@@ -6,7 +6,6 @@ using Flurl;
 using Flurl.Http;
 using Lykke.Job.BlockchainBalancesReport.Clients.NeoScan.Contracts;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
 {
@@ -22,8 +21,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
         private readonly Dictionary<string, string> _assetNames;
 
         // ReSharper disable once UnusedMember.Global
-        public NeoBalanceProvider(IOptions<NeoSettings> settings) :
-            this(settings.Value.NeoScanBaseUrl)
+        public NeoBalanceProvider(NeoSettings settings) :
+            this(settings.NeoScanBaseUrl)
         {
         }
 
