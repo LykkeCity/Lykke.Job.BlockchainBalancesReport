@@ -4,27 +4,28 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class FileSystemReportRepository : IReportRepository
     {
-        private readonly ILogger<FileSystemReportRepository> _logger;
+        private readonly ILog _logger;
         private readonly string _filePath;
 
         public FileSystemReportRepository(
-            ILogger<FileSystemReportRepository> logger,
+            ILogFactory logFactory,
             ReportFileRepositorySettings settings)
         {
-            _logger = logger;
+            _logger = logFactory.CreateLog(this);
             _filePath = settings.FilePath;
         }
 
         public async Task SaveAsync(IReadOnlyCollection<ReportItem> items)
         {
-            _logger.LogInformation($"Saving balances report to {_filePath}...");
+            _logger.Info($"Saving balances report to {_filePath}...");
 
             var stream = File.Open(_filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
             using (var writer = new StreamWriter(stream, Encoding.UTF8))
@@ -45,7 +46,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                 }
             }
 
-            _logger.LogInformation($"Balances report saving done. {items.Count} balances saved");
+            _logger.Info($"Balances report saving done. {items.Count} balances saved");
         }
     }
 }

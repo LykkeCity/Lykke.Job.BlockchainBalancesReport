@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Blockchains;
 using Lykke.Job.BlockchainBalancesReport.Blockchains.Decred;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Lykke.Logs;
+using Lykke.Logs.Loggers.LykkeConsole;
 using Xunit;
 
 namespace Lykke.Job.BlockchainBalancesReport.Tests
@@ -14,12 +14,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         [Fact]
         public async Task CanCalculateBalanceAtPointOfTime()
         {
-            var serviceProvider = new ServiceCollection()
-                .AddLogging()
-                .BuildServiceProvider();
-
-            var balanceProvider = new DecredBalanceProvider(serviceProvider.GetService<ILoggerFactory>(), 
-                "https://explorer.dcrdata.org/insight/api/" );
+            var logFactory = LogFactory.Create().AddUnbufferedConsole();
+            var balanceProvider = new DecredBalanceProvider
+            (
+                logFactory,
+                "https://explorer.dcrdata.org/insight/api/"
+            );
 
             var decredAsset = new Asset("DCR","DCR", "02154b48-7ed9-4211-b614-e87679fd4f5a");
             var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>

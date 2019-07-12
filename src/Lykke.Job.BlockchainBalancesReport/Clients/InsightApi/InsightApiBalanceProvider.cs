@@ -2,23 +2,24 @@
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using Common.Log;
+using Lykke.Common.Log;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Clients.InsightApi
 {
     public class InsightApiBalanceProvider
     {
-        private readonly ILogger<InsightApiBalanceProvider> _logger;
+        private readonly ILog _log;
         private readonly InsightApiClient _insightApiClient;
         private readonly Func<string, string> _addressNormalizer;
 
         public InsightApiBalanceProvider(
-            ILogger<InsightApiBalanceProvider> logger,
+            ILogFactory logFactory,
             InsightApiClient insightApiClient,
             Func<string, string> addressNormalizer)
         {
-            _logger = logger;
+            _log = logFactory.CreateLog(this);
             _insightApiClient = insightApiClient;
             _addressNormalizer = addressNormalizer;
         }
@@ -40,7 +41,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Clients.InsightApi
                 var response = await Policy
                     .Handle<Exception>(ex =>
                     {
-                        _logger.LogWarning(ex, $"Failed to get transactions page {page} of {address}. Operation will be retried.");
+                        _log.Warning($"Failed to get transactions page {page} of {address}. Operation will be retried.", ex);
                         return true;
                     })
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
@@ -80,7 +81,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Clients.InsightApi
                 var response = await Policy
                     .Handle<Exception>(ex =>
                     {
-                        _logger.LogWarning(ex, $"Failed to get transactions page {from} of {address}. Operation will be retried.");
+                        _log.Warning($"Failed to get transactions page {from} of {address}. Operation will be retried.", ex);
                         return true;
                     })
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))

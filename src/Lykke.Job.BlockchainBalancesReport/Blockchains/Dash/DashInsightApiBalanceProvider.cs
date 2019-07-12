@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NBitcoin;
 
@@ -17,7 +17,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
         private readonly InsightApiBalanceProvider _balanceProvider;
 
         public DashInsightApiBalanceProvider(
-            ILoggerFactory loggerFactory, 
+            ILogFactory logFactory, 
             IOptions<DashSettings> settings)
         {
             NBitcoin.Altcoins.Dash.Instance.EnsureRegistered();
@@ -25,7 +25,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
             _network = NBitcoin.Altcoins.Dash.Instance.Mainnet;
             _balanceProvider = new InsightApiBalanceProvider
             (
-                loggerFactory.CreateLogger<InsightApiBalanceProvider>(),
+                logFactory,
                 new InsightApiClient(settings.Value.InsightApiUrl),
                 NormalizeOrDefault
             );

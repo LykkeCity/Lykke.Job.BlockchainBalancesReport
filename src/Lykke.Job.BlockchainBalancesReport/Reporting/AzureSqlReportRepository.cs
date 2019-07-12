@@ -5,22 +5,23 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class AzureSqlReportRepository : IReportRepository
     {
-        private readonly ILogger<AzureSqlReportRepository> _logger;
+        private readonly ILog _log;
         private readonly SqlConnectionStringBuilder _connectionBuilder;
         private readonly bool _createTable;
-
+        
         public AzureSqlReportRepository(
-            ILogger<AzureSqlReportRepository> logger,
+            ILogFactory logFactory,
             AzureSqlRepositorySettings settings)
         {
-            _logger = logger;
+            _log = logFactory.CreateLog(this);
 
             _connectionBuilder = new SqlConnectionStringBuilder
             {
@@ -41,20 +42,20 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
                 if (_createTable)
                 {
-                    _logger.LogInformation($"Ensuring that SQL table {_connectionBuilder.DataSource}:{_connectionBuilder.InitialCatalog}.HotWalletBalances is created...");
+                    _log.Info($"Ensuring that SQL table {_connectionBuilder.DataSource}:{_connectionBuilder.InitialCatalog}.HotWalletBalances is created...");
 
                     await EnsureTableIsCreatedAsync(connection);
                 }
 
-                _logger.LogInformation("Ensuring that there are not balances saved yet...");
+                _log.Info("Ensuring that there are no balances saved yet...");
 
                 await RemoveItems(connection, items);
 
-                _logger.LogInformation("Saving balances...");
+                _log.Info("Saving balances...");
 
                 await InsertItems(connection, items);
 
-                _logger.LogInformation($"Saving done. {items.Count} balances saved");
+                _log.Info($"Saving done. {items.Count} balances saved");
             }
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
@@ -15,18 +15,20 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
         private readonly InsightApiBalanceProvider _balanceProvider;
         
         public DecredBalanceProvider(
-            ILoggerFactory loggerFactory,
-            IOptions<DecredSettings> settings):this(loggerFactory, settings.Value.InsightApiUrl)
+            ILogFactory logFactory,
+            IOptions<DecredSettings> settings) : 
+            
+            this(logFactory, settings.Value.InsightApiUrl)
         {
         }
 
         public DecredBalanceProvider(
-            ILoggerFactory loggerFactory,
+            ILogFactory logFactory,
             string insightApiUrl)
         {
             _balanceProvider = new InsightApiBalanceProvider
             (
-                loggerFactory.CreateLogger<InsightApiBalanceProvider>(),
+                logFactory,
                 new InsightApiClient(insightApiUrl),
                 NormalizeOrDefault
             );

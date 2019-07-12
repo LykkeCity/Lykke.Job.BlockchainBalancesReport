@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.ZCash
@@ -15,12 +15,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.ZCash
         private readonly InsightApiBalanceProvider _balanceProvider;
 
         public ZCashBalanceProvider(
-            ILoggerFactory loggerFactory,
+            ILogFactory logFactory,
             IOptions<ZCashSettings> settings)
         {
             _balanceProvider = new InsightApiBalanceProvider
             (
-                loggerFactory.CreateLogger<InsightApiBalanceProvider>(),
+                logFactory,
                 new InsightApiClient(settings.Value.InsightApiUrl),
                 NormalizeOrDefault
             );
