@@ -1,10 +1,15 @@
-﻿using Lykke.Job.BlockchainBalancesReport.Settings.JobSettings;
-using Lykke.Sdk.Settings;
+﻿using Lykke.Sdk.Settings;
 
 namespace Lykke.Job.BlockchainBalancesReport.Settings
 {
     public class AppSettings : BaseAppSettings
     {
-        public BlockchainBalancesReportJobSettings BlockchainBalancesReportJob { get; set; }
+        public AzureStorageSettings AzureStorage { get; set; }
+
+        public MongoStorageSettings MongoStorage { get; set; }
+
+        public ReportSettings Report { get; set; }
+
+        public BlockchainsSettings Blockchains { get; set; }
     }
 }
