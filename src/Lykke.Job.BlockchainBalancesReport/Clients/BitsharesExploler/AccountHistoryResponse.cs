@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.BitsharesExploler
+namespace Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExploler
 {
     public class AccountHistoryResponse
     {

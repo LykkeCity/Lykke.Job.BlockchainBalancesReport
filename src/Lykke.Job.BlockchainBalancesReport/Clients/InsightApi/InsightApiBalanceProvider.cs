@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Polly;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.InsightApi
 {
     public class InsightApiBalanceProvider
     {

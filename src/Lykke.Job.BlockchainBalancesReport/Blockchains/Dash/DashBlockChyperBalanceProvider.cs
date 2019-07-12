@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.BlockCypherApi;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
 {
     public class DashBlockChyperBalanceProvider : IBalanceProvider
     {

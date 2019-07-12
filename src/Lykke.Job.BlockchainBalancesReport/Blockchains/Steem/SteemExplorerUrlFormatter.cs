@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
 {
     public class SteemExplorerUrlFormatter : IExplorerUrlFormatter
     {

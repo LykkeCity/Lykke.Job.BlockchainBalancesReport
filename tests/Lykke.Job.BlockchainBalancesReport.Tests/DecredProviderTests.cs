@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred;
+using Lykke.Job.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Blockchains.Decred;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
-namespace Tests
+namespace Lykke.Job.BlockchainBalancesReport.Tests
 {
     public class DecredProviderTests
     {

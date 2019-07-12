@@ -2,7 +2,7 @@
 using Flurl;
 using Flurl.Http;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.EosAuthorityApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.EosAuthorityApi
 {
     public class EosAuthorityApiClient
     {

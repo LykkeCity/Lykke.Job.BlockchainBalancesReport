@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Kin
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Kin
 {
     public class KinExplorerUrlFormatter : IExplorerUrlFormatter
     {

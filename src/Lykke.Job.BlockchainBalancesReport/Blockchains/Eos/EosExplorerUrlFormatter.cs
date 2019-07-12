@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
 {
     public class EosExplorerUrlFormatter : IExplorerUrlFormatter
     {

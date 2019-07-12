@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Horizon
 {
     public enum HorizonAccountOperationType
     {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Horizon;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.Horizon;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
 {
     public class StellarBalanceProvider : IBalanceProvider
     {

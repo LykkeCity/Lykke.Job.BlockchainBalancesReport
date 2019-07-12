@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains
 {
     public class ExplorerUrlFormattersFactory
     {

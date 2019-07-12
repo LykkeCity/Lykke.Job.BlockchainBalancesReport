@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains.Steem;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Steemit;
-using Newtonsoft.Json;
+using Lykke.Job.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Blockchains.Steem;
+using Lykke.Job.BlockchainBalancesReport.Clients.Steemit;
 using Xunit;
 
-namespace Tests
+namespace Lykke.Job.BlockchainBalancesReport.Tests
 {
     public class SteemProviderTests
     {

@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 {
     public class RippleExplorerUrlFormatter : IExplorerUrlFormatter
     {

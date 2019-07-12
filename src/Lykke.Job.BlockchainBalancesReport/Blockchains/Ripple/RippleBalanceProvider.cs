@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.RippleDataApi;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.RippleDataApi;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ripple
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 {
     public class RippleBalanceProvider : IBalanceProvider
     {

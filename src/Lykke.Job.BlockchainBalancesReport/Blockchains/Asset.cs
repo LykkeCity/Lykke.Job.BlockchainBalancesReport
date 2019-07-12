@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains
 {
     public class Asset:IEquatable<Asset>
     {

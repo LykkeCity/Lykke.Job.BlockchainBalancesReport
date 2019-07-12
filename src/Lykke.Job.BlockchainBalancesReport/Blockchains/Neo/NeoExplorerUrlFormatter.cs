@@ -1,5 +1,5 @@
 ﻿
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
 {
     public class NeoExplorerUrlFormatter : IExplorerUrlFormatter
     {

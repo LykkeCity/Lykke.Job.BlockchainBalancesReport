@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.InsightApi;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NBitcoin;
 using NBitcoin.Altcoins;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinGold
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinGold
 {
     public class BitcoinGoldBalanceProvider : IBalanceProvider
     {

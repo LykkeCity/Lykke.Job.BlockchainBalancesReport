@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Reporting
+namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class BalancesReport
     {

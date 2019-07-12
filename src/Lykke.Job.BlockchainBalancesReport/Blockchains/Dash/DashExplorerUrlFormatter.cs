@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Dash
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
 {
     public class DashExplorerUrlFormatter : IExplorerUrlFormatter
     {

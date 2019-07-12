@@ -1,5 +1,5 @@
 ﻿
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.ZCash
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.ZCash
 {
     public class ZCashExplorerUrlFormatter : IExplorerUrlFormatter
     {

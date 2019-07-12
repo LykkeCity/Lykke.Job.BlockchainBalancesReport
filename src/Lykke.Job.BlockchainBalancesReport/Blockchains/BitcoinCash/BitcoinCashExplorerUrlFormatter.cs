@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.BitcoinCash
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinCash
 {
     public class BitcoinCashExplorerUrlFormatter : IExplorerUrlFormatter
     {

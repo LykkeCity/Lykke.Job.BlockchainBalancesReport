@@ -2,7 +2,7 @@
 using Flurl;
 using Flurl.Http;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.BlockCypherApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi
 {
     public class BlockCypherApiClient
     {

@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ethereum
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
 {
     public class EthereumExplorerUrlFormatter : IExplorerUrlFormatter
     {

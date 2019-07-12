@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Blockchains.Neo;
 using Xunit;
 
-namespace Tests
+namespace Lykke.Job.BlockchainBalancesReport.Tests
 {
     public class NeoProviderTests
     {

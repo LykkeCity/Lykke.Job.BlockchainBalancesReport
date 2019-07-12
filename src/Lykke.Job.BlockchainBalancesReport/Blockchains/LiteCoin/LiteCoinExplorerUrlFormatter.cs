@@ -1,5 +1,5 @@
 ﻿
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.LiteCoin
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.LiteCoin
 {
     public class LiteCoinExplorerUrlFormatter : IExplorerUrlFormatter
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.EosParkApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.EosParkApi
 {
     public class EosParkApiAccountTokensListResponseData
     {

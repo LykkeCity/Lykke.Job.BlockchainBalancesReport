@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Horizon
 {
     public class HorizonAccountOperationsResponse
     {

@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using Lykke.Tools.BlockchainBalancesReport.Clients.BitsharesExploler;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExploler;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
     public class BitsharesBalanceProvider : IBalanceProvider
     {

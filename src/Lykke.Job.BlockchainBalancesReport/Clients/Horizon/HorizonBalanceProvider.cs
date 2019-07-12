@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using stellar_dotnet_sdk;
 using stellar_dotnet_sdk.xdr;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Horizon
 {
     public class HorizonBalanceProvider
     {

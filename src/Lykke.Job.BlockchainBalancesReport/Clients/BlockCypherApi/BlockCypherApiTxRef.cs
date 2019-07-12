@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.BlockCypherApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi
 {
     public class BlockCypherApiTxRef
     {

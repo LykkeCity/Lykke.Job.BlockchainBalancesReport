@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Samurai
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Samurai
 {
     public class SamuraiApiErc20Operation
     {

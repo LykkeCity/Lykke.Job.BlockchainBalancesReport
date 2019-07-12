@@ -1,5 +1,5 @@
 ﻿
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Decred
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
 {
     public class DecredExplorerUrlFormatter : IExplorerUrlFormatter
     {

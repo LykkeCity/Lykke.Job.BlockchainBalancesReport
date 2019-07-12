@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.EosAuthorityApi;
-using Lykke.Tools.BlockchainBalancesReport.Clients.EosParkApi;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.EosAuthorityApi;
+using Lykke.Job.BlockchainBalancesReport.Clients.EosParkApi;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Polly;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Eos
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
 {
     public class EosBalanceProvider : IBalanceProvider
     {

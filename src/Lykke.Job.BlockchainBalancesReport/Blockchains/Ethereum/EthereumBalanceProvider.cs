@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Samurai;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.Samurai;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Ethereum
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
 {
     public class EthereumBalanceProvider : IBalanceProvider
     {

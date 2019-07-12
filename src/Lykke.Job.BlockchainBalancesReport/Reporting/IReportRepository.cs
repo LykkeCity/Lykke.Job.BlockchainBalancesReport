@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Reporting
+namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public interface IReportRepository
     {

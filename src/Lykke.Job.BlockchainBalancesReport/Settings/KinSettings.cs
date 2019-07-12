@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Configuration
+﻿namespace Lykke.Job.BlockchainBalancesReport.Settings
 {
     public class KinSettings
     {

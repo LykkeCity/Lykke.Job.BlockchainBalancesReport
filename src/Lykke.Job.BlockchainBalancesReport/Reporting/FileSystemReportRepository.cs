@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Logging;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Reporting
+namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class FileSystemReportRepository : IReportRepository
     {

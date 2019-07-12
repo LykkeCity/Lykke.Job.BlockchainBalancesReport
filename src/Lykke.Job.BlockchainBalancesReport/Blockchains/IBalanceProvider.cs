@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains
 {
     public interface IBalanceProvider
     {

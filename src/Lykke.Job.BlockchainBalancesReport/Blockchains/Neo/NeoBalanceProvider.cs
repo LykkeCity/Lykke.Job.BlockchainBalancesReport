@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using Lykke.Tools.BlockchainBalancesReport.Clients.NeoScan.Contracts;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.NeoScan.Contracts;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Neo
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
 {
     public class NeoBalanceProvider: IBalanceProvider
     {

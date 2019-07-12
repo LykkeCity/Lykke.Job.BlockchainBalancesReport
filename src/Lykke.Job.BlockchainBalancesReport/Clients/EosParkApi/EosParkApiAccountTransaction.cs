@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.EosParkApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.EosParkApi
 {
     public class EosParkApiAccountTransaction
     {

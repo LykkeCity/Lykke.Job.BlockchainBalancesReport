@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Bitshares
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
     public class BitsharesExplorerUrlFormatter : IExplorerUrlFormatter
     {

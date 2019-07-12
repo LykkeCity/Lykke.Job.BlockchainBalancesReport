@@ -1,7 +1,7 @@
 ﻿using System;
-using Lykke.Tools.BlockchainBalancesReport.Blockchains;
+using Lykke.Job.BlockchainBalancesReport.Blockchains;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Reporting
+namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class ReportItem
     {

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.EosAuthorityApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.EosAuthorityApi
 {
     public class EosAuthorityApiAccountGenesisResponse
     {

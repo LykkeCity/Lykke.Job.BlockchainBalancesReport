@@ -5,7 +5,7 @@ using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Horizon
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Horizon
 {
     public class HorizonClient
     {

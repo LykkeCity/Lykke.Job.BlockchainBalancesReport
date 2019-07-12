@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Nemchina
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Nemchina
 {
     public class TransactionsResponse
     {

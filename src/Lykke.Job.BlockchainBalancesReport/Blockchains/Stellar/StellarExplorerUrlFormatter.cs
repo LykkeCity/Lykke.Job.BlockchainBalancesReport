@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Stellar
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
 {
     public class StellarExplorerUrlFormatter : IExplorerUrlFormatter
     {

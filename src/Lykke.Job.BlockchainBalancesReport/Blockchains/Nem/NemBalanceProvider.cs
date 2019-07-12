@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using Lykke.Tools.BlockchainBalancesReport.Clients.Nemchina;
-using Lykke.Tools.BlockchainBalancesReport.Configuration;
+using Lykke.Job.BlockchainBalancesReport.Clients.Nemchina;
+using Lykke.Job.BlockchainBalancesReport.Settings;
 using Microsoft.Extensions.Options;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Nem
+namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
 {
     public class NemBalanceProvider : IBalanceProvider
     {

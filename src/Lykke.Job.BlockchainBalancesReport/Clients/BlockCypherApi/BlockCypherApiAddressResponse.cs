@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.BlockCypherApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi
 {
     public class BlockCypherApiAddressResponse
     {

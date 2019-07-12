@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Samurai
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Samurai
 {
     public class SamuraiApiOperationsHistoryResponse
     {

@@ -2,7 +2,7 @@
 using Flurl;
 using Flurl.Http;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.InsightApi
+namespace Lykke.Job.BlockchainBalancesReport.Clients.InsightApi
 {
     public class InsightApiClient
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Steemit
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Steemit
 {
     public static class SteemetDeserializer
     {

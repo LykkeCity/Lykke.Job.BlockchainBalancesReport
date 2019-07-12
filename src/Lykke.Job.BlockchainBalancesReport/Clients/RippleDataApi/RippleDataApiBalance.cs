@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Clients.RippleDataApi
+﻿namespace Lykke.Job.BlockchainBalancesReport.Clients.RippleDataApi
 {
     public class RippleDataApiBalance
     {

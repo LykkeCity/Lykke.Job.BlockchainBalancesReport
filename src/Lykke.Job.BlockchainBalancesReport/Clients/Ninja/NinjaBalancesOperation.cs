@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Ninja
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Ninja
 {
     public class NinjaBalancesOperation
     {

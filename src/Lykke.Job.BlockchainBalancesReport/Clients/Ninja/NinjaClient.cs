@@ -2,7 +2,7 @@
 using Flurl;
 using Flurl.Http;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.Ninja
+namespace Lykke.Job.BlockchainBalancesReport.Clients.Ninja
 {
     public class NinjaClient
     {

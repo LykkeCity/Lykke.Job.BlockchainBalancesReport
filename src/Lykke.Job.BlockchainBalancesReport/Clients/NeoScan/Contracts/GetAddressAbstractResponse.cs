@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lykke.Tools.BlockchainBalancesReport.Clients.NeoScan.Contracts
+namespace Lykke.Job.BlockchainBalancesReport.Clients.NeoScan.Contracts
 {
     // ReSharper disable once InconsistentNaming
     public class GetAddressAbstractResponse

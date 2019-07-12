@@ -1,4 +1,4 @@
-﻿namespace Lykke.Tools.BlockchainBalancesReport.Blockchains.Nem
+﻿namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
 {
     public class NemExplorerUrlFormatter : IExplorerUrlFormatter
     {
