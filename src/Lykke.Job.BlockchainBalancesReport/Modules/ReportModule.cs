@@ -12,10 +12,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
     public class ReportModule : Module
     {
         private readonly AppSettings _settings;
+        private readonly IReloadingManager<AzureStorageSettings> _azureStorageSettings;
 
         public ReportModule(IReloadingManager<AppSettings> settings)
         {
             _settings = settings.CurrentValue;
+            _azureStorageSettings = settings.Nested(s => s.AzureStorage);
         }
 
         protected override void Load(ContainerBuilder builder)
@@ -38,6 +40,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
                 .As<IExplorerUrlFormatter>();
 
             RegisterBlockchainSettings(builder);
+
+            builder.RegisterType<LastReportOccurrenceRepository>()
+                .AsSelf()
+                .WithParameter(TypedParameter.From(_azureStorageSettings.ConnectionString(s => s.DataConnString)))
+                .SingleInstance();
         }
 
         private void RegisterBlockchainSettings(ContainerBuilder builder)

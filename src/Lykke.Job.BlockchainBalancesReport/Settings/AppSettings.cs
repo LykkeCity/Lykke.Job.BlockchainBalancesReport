@@ -8,6 +8,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Settings
 
         public MongoStorageSettings MongoStorage { get; set; }
 
+        public ScheduleSettings Schedule { get; set; }
+
         public ReportSettings Report { get; set; }
 
         public BlockchainsSettings Blockchains { get; set; }

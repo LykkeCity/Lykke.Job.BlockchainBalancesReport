@@ -30,15 +30,15 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             _report = report;
         }
 
-        public async Task BuildAsync()
+        public async Task BuildAsync(DateTime at)
         {
-            _logger.LogInformation($"Building balances report at {_reportSettings.BalancesAt:yyyy-MM-ddTHH:mm:ss} UTC...");
+            _logger.LogInformation($"Building balances report at {at:yyyy-MM-ddTHH:mm:ss} UTC...");
             
             var tasks = new List<Task>();
 
             foreach (var (blockchainType, namedAddresses) in _reportSettings.Addresses)
             {
-                tasks.Add(BuildBlockchainReportAsync(blockchainType, namedAddresses, _reportSettings));
+                tasks.Add(BuildBlockchainReportAsync(blockchainType, namedAddresses, at));
             }
 
             await Task.WhenAll(tasks);
@@ -51,7 +51,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
         private async Task BuildBlockchainReportAsync(
             string blockchainType, 
             IReadOnlyDictionary<string, string> namedAddresses,
-            ReportSettings settings)
+            DateTime at)
         {
             var balanceProvider = _balanceProvidersFactory.GetBalanceProvider(blockchainType);
             var explorerUrlFormatter = _explorerUrlFormattersFactory.GetFormatterOrDefault(blockchainType);
@@ -67,7 +67,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                         return true;
                     })
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
-                    .ExecuteAsync(async () => await balanceProvider.GetBalancesAsync(address, settings.BalancesAt));
+                    .ExecuteAsync(async () => await balanceProvider.GetBalancesAsync(address, at));
                 
                 foreach (var (asset, balance) in assetBalances)
                 {
@@ -80,7 +80,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                         address,
                         asset,
                         balance,
-                        explorerUrl
+                        explorerUrl,
+                        at
                     );
                 }
             }

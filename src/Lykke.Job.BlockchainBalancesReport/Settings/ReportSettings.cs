@@ -7,17 +7,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Settings
     {
         public ReportRepositoriesSettings Repositories { get; set; }
 
-        public DateTime BalancesAt
-        {
-            get => _balancesAt;
-            set => _balancesAt = new DateTime(value.Year, value.Month, value.Day, value.Hour, value.Minute, value.Second, value.Millisecond, DateTimeKind.Utc);
-        }
+        public TimeSpan BalancesIntervalFromSchedule { get; set; }
 
         /// <summary>
         /// Blockchains dictionary. Each blockchain contains dictionary of addresses by their names
         /// </summary>
         public IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> Addresses { get; set; }
-
-        private DateTime _balancesAt;
     }
 }
