@@ -34,7 +34,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .AssignableTo<IBalanceProvider>()
-                .Except<DashBlockCypherBalanceProvider>()
                 .As<IBalanceProvider>();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())

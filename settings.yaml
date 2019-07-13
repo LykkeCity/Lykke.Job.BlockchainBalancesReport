@@ -1,9 +1,109 @@
-BlockchainBalancesReportJob:
-  Db:
+AzureStorage:
     LogsConnString:
-      settings-key: BlockchainBalancesReportJob-LogsConnString
-      types:
-        - AzureTableStorage
+        settings-key: BlockchainBalancesReportJob-LogsConnString
+        types:
+            - AzureTableStorage
+    DataConnString:
+        settings-key: BlockchainBalancesReportJob-DataConnString
+        types:
+            - AzureTableStorage
+MongoStorage:
+    HangFireConnString:
+        settings-key: BlockchainBalancesReportJob-HangfireConnString
+Schedule:
+    BuildReportCron: 
+        settings-key: BlockchainBalancesReportJob-BuildReportScheduleCron
+Report:
+    BalancesIntervalFromSchedule:
+        settings-key: BlockchainBalancesReportJob-ReportBalancesIntervalFromSchedule
+    Repositories:
+        File:
+            IsEnabled:
+                settings-key: BlockchainBalancesReportJob-ReportIsFileRepositoryEnabled
+                - Optional
+            FilePath:
+                settings-key: BlockchainBalancesReportJob-ReportFileRepositoryFilePath
+                - Optional
+        Sql:
+            IsEnabled:
+                settings-key: BlockchainBalancesReportJob-ReportIsSqlRepositoryEnabled
+                - Optional
+            ConnString:
+                settings-key: BlockchainBalancesReportJob-ReportSqlRepositoryConnString
+                - Optional
+            CreateTable:
+                settings-key: BlockchainBalancesReportJob-ReportSqlRepositoryCreateTable
+                - Optional
+    Addresses:
+        # Should be a list of blockchains with map of address names to their values in each blockchain
+        # Example:
+        #
+        # {
+        #   "Bitcoin": {
+        #     "Hot wallet": "33u48gnasdojAJasda12388ASD34234Py2",
+        #     "Cold wallet": "19123saeqkj123mdopwefOASDdfEHN24nS"
+        #   },
+        #   "Ethereum": {
+        #    "ETH hot wallet": "0x0199123AEcd913438834ADEBBCcca2399911a32B"
+        #    "ERC20 hot wallet": "0xaD234234AD772347Ea882348eb99123ba9912379"
+        #   }
+        # }
+        settings-key: BlockchainBalancesReportJob-ReportAddresses
+        types:
+            - Json
+Blockchains:
+    Bitcoin:
+        NinjaUrl:
+            settings-key: NinjaServiceUrl
+    Ethereum:
+        SamuraiApiUrl:
+            settings-key: EthSamuraiUrl
+    Ripple:
+        DataApiUrl:
+            settings-key: RippleDataApiUrl
+    BitcoinCash:
+        InsightApiUrl:
+            settings-key: BchInsightApiUrl
+    LiteCoin:
+        InsightApiUrl:
+            settings-key: LtcInsightApiUrl
+    BitcoinGold:
+        InsightApiUrl:
+            settings-key: BitcoinGoldInsightApiUrl
+    ZCash:
+        InsightApiUrl:
+            settings-key: ZCashInsightApiUrl
+    Dash:
+        InsightApiUrl:
+            settings-key: DashInsightApiUrl
+    Eos:
+        ParkApiUrl:
+            settings-key: EosParkApiUrl
+        ApiKey:
+            settings-key: BlockchainBalancesReportJob-EosParkApiKey
+        EosAuthorityUrl:
+            settings-key: EosAuthorityUrl
+    Stellar:
+        HorizonUrl:
+            settings-key: StellarHorizonUrl
+    Kin:
+        HorizonUrl:
+            settings-key: KinHorizonUrl
+    Neo:
+        NeoScanBaseUrl:
+            settings-key: NeoScanBaseUrl
+    Decred:
+        InsightApiUrl:
+            settings-key: DecredInsightApiUrl
+    Bitshares:
+        ExplorerBaseUrl:
+            settings-key: BitsharesExplorerBaseUrl
+    Nem:
+        NemChinaBaseUrl:
+            settings-key: NemChinaBaseUrl
+    Steem:
+        SteemetBaseUrl:
+            settings-key: SteemetBaseUrl
 SlackNotifications:
     AzureQueue:
         ConnectionString:

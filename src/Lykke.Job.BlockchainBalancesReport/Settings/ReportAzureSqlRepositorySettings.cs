@@ -2,12 +2,15 @@
 
 namespace Lykke.Job.BlockchainBalancesReport.Settings
 {
-    public class ReportFileRepositorySettings
+    public class ReportAzureSqlRepositorySettings
     {
         [Optional]
         public bool IsEnabled { get; set; }
+        
+        [Optional]
+        public string ConnString { get; set; }
 
         [Optional]
-        public string FilePath { get; set; }
+        public bool CreateTable { get; set; }
     }
 }

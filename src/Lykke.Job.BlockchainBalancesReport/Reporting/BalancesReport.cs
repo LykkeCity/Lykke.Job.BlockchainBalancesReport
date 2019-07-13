@@ -22,7 +22,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
             var repositories = new List<IReportRepository>();
                 
-            if (settings.Repositories.File != null)
+            if (settings.Repositories.File.IsEnabled)
             {
                 repositories.Add
                 (
@@ -34,7 +34,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                 );
             }
 
-            if (settings.Repositories.Sql != null)
+            if (settings.Repositories.Sql.IsEnabled)
             {
                 repositories.Add
                 (

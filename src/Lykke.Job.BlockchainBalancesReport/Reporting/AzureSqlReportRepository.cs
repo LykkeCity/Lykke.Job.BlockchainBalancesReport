@@ -14,35 +14,30 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
     public class AzureSqlReportRepository : IReportRepository
     {
         private readonly ILog _log;
-        private readonly SqlConnectionStringBuilder _connectionBuilder;
+        private readonly string _connectionString;
         private readonly bool _createTable;
         
         public AzureSqlReportRepository(
             ILogFactory logFactory,
-            AzureSqlRepositorySettings settings)
+            ReportAzureSqlRepositorySettings settings)
         {
             _log = logFactory.CreateLog(this);
 
-            _connectionBuilder = new SqlConnectionStringBuilder
-            {
-                DataSource = settings.Server,
-                UserID = settings.User,
-                Password = settings.Password,
-                InitialCatalog = settings.Database
-            };
-
+            _connectionString = settings.ConnString;
             _createTable = settings.CreateTable;
         }
 
         public async Task SaveAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
         {
-            using (var connection = new SqlConnection(_connectionBuilder.ConnectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();
 
                 if (_createTable)
                 {
-                    _log.Info($"Ensuring that SQL table {_connectionBuilder.DataSource}:{_connectionBuilder.InitialCatalog}.HotWalletBalances is created...");
+                    var connectionStringBuilder = new SqlConnectionStringBuilder(_connectionString);
+
+                    _log.Info($"Ensuring that SQL table {connectionStringBuilder.DataSource}:{connectionStringBuilder.InitialCatalog}.HotWalletBalances is created...");
 
                     await EnsureTableIsCreatedAsync(connection);
                 }
