@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.BlockCypherApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
@@ -12,14 +13,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
     {
         public string BlockchainType => "Dash";
 
-        private readonly ILogger<DashBlockCypherBalanceProvider> _logger;
+        private readonly ILog _log;
         private readonly BlockCypherApiClient _client;
-
+        
         public DashBlockCypherBalanceProvider(
-            ILogger<DashBlockCypherBalanceProvider> logger,
+            ILogFactory logFactory,
             DashSettings settings)
         {
-            _logger = logger;
+            _log = logFactory.CreateLog(this);
             _client = new BlockCypherApiClient(settings.BlockCypherApiUrl);
         }
 
@@ -33,7 +34,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
                 var response = await Policy
                     .Handle<Exception>(ex =>
                     {
-                        _logger.LogWarning(ex, $"Failed to get address {address} data before block {before}. Operation will be retried.");
+                        _log.Warning($"Failed to get address {address} data before block {before}. Operation will be retried.", ex);
                         return true;
                     })
                     .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))

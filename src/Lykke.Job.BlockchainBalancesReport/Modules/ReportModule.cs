@@ -28,7 +28,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
             builder.RegisterType<BalancesReport>()
                 .AsSelf()
                 .WithParameter(TypedParameter.From(_settings.Report));
-            builder.RegisterType<BalancesReportBuilder>().AsSelf();
+            builder.RegisterType<BalancesReportBuilder>()
+                .WithParameter(TypedParameter.From(_settings.Report))
+                .AsSelf();
 
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
                 .AssignableTo<IBalanceProvider>()

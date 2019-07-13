@@ -55,8 +55,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             string address, 
             Asset asset,
             decimal balance, 
-            string explorerUrl,
-            DateTime at)
+            string explorerUrl)
         {
             if (_saved)
             {
@@ -65,7 +64,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
             _items.Add(new ReportItem
             {
-                Date = at,
                 BlockchainType = blockchainType,
                 AddressName = addressName,
                 Address = address,
@@ -75,11 +73,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             });
         }
 
-        public async Task SaveAsync()
+        public async Task SaveAsync(DateTime at)
         {
             _saved = true;
 
-            var tasks = _reportRepositories.Select(x => x.SaveAsync(_items));
+            var tasks = _reportRepositories.Select(x => x.SaveAsync(at, _items));
 
             await Task.WhenAll(tasks);
         }

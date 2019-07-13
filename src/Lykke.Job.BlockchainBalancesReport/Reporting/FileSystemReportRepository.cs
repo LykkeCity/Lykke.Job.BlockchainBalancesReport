@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -23,18 +24,20 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             _filePath = settings.FilePath;
         }
 
-        public async Task SaveAsync(IReadOnlyCollection<ReportItem> items)
+        public async Task SaveAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
         {
-            _logger.Info($"Saving balances report to {_filePath}...");
+            var filePath = _filePath.Replace("{datetime}", at.ToString("yyyy-MM-ddTHH-mm-ss"));
 
-            var stream = File.Open(_filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            _logger.Info($"Saving balances report to {filePath}...");
+
+            var stream = File.Open(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
             using (var writer = new StreamWriter(stream, Encoding.UTF8))
             {
                 await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,asset,balance,blockchain asset ID,asset ID,explorer");
 
                 foreach (var i in items.OrderBy(x => x.BlockchainType).ThenBy(x => x.AddressName))
                 {
-                    await writer.WriteAsync($"{i.Date:yyyy-MM-ddTHH:mm:ss},");
+                    await writer.WriteAsync($"{at:yyyy-MM-ddTHH:mm:ss},");
                     await writer.WriteAsync($"{i.BlockchainType},");
                     await writer.WriteAsync($"{i.AddressName},");
                     await writer.WriteAsync($"{i.Address},");

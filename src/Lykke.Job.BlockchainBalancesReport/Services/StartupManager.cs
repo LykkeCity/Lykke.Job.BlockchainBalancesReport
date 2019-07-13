@@ -29,7 +29,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Services
             RecurringJob.AddOrUpdate<BuildReportJob>
             (
                 recurringJobId: BuildReportJob.Id,
-                methodCall: job => job.ExecuteAsync(CronExpression.Parse(_scheduleSettings.BuildReportCron)),
+                methodCall: job => job.ExecuteAsync(_scheduleSettings.BuildReportCron),
                 cronExpression: _scheduleSettings.BuildReportCron
             );
 

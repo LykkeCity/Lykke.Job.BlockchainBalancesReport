@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Log;
+using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Clients.EosAuthorityApi;
 using Lykke.Job.BlockchainBalancesReport.Clients.EosParkApi;
 using Lykke.Job.BlockchainBalancesReport.Settings;
-using Microsoft.Extensions.Logging;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
@@ -15,16 +16,16 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
     {
         public string BlockchainType => "Eos";
 
-        private readonly ILogger<EosBalanceProvider> _logger;
+        private readonly ILog _log;
         private readonly EosParkApiClient _eosParkClient;
         private readonly EosAuthorityApiClient _eosAuthorityClient;
         private readonly (string Code, string Symbol) _nativeAsset;
-
+        
         public EosBalanceProvider(
-            ILogger<EosBalanceProvider> logger,
+            ILogFactory logFactory,
             EosSettings settings)
         {
-            _logger = logger;
+            _log = logFactory.CreateLog(this);
             _eosParkClient = new EosParkApiClient(settings.ParkApiUrl, settings.ApiKey);
             _eosAuthorityClient = new EosAuthorityApiClient(settings.EosAuthorityUrl);
 
@@ -40,14 +41,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
             var genesisResponseTask = Policy
                 .Handle<Exception>(ex =>
                 {
-                    _logger.LogWarning(ex, $"Failed to get genesis info of {address}. Operation will be retried.");
+                    _log.Warning($"Failed to get genesis info of {address}. Operation will be retried.", ex);
                     return true;
                 })
                 .OrResult<EosAuthorityApiAccountGenesisResponse>(x =>
                 {
                     if (x.Status != null && x.Message != "Not a genesis account")
                     {
-                        _logger.LogWarning($"Failed to get genesis info of {address}: {x.Status}: {x.StatusCode} - {x.Message}. Operation will be retried.");
+                        _log.Warning($"Failed to get genesis info of {address}: {x.Status}: {x.StatusCode} - {x.Message}. Operation will be retried.");
                         return true;
                     }
                     return false;
@@ -58,14 +59,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
             var tokensListResponse = await Policy
                 .Handle<Exception>(ex =>
                 {
-                    _logger.LogWarning(ex, $"Failed to get tokens list of {address}. Operation will be retried.");
+                    _log.Warning($"Failed to get tokens list of {address}. Operation will be retried.", ex);
                     return true;
                 })
                 .OrResult<EosParkApiAccountTokensListResponse>(x =>
                 {
                     if (x.ErrNo != 0)
                     {
-                        _logger.LogWarning($"Failed to get tokens list of {address}: {x.ErrNo} - {x.ErrMsg}. Operation will be retried.");
+                        _log.Warning($"Failed to get tokens list of {address}: {x.ErrNo} - {x.ErrMsg}. Operation will be retried.");
                         return true;
                     }
                     return false;
@@ -79,14 +80,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
                 var response = await Policy
                     .Handle<Exception>(ex =>
                     {
-                        _logger.LogWarning(ex, $"Failed to get transactions page {page} of {address}. Operation will be retried.");
+                        _log.Warning($"Failed to get transactions page {page} of {address}. Operation will be retried.", ex);
                         return true;
                     })
                     .OrResult<EosParkApiAccountTransactionsResponse>(x =>
                     {
                         if (x.ErrNo != 0)
                         {
-                            _logger.LogWarning($"Failed to get transactions page {page} of {address}: {x.ErrNo} - {x.ErrMsg}. Operation will be retried.");
+                            _log.Warning($"Failed to get transactions page {page} of {address}: {x.ErrNo} - {x.ErrMsg}. Operation will be retried.");
                             return true;
                         }
                         return false;

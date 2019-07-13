@@ -34,7 +34,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             _createTable = settings.CreateTable;
         }
 
-        public async Task SaveAsync(IReadOnlyCollection<ReportItem> items)
+        public async Task SaveAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
         {
             using (var connection = new SqlConnection(_connectionBuilder.ConnectionString))
             {
@@ -49,11 +49,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
                 _log.Info("Ensuring that there are no balances saved yet...");
 
-                await RemoveItems(connection, items);
+                await RemoveItems(connection, at, items);
 
                 _log.Info("Saving balances...");
 
-                await InsertItems(connection, items);
+                await InsertItems(connection, at, items);
 
                 _log.Info($"Saving done. {items.Count} balances saved");
             }
@@ -100,7 +100,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             }
         }
 
-        private static async Task RemoveItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
+        private static async Task RemoveItems(SqlConnection connection, DateTime at, IReadOnlyCollection<ReportItem> items)
         {
             var sqlBuilder = new StringBuilder();
 
@@ -118,7 +118,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                 sqlBuilder.AppendLine
                 (
                     $@"
-                    date = {DateTimeValue(item.Date)} and
+                    date = {DateTimeValue(at)} and
                     blockchain = {StringValue(item.BlockchainType)} and
                     address = {StringValue(item.Address)} and
                     blockchainAsset = {StringValue(item.Asset.BlockchainId)}
@@ -129,7 +129,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             await ExecuteNonQueryCommandAsync(connection, sqlBuilder.ToString());
         }
 
-        private static async Task InsertItems(SqlConnection connection, IReadOnlyCollection<ReportItem> items)
+        private static async Task InsertItems(SqlConnection connection, DateTime at, IReadOnlyCollection<ReportItem> items)
         {
             var sqlBuilder = new StringBuilder();
 
@@ -159,7 +159,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                 (
                     $@"
                     (
-                        {DateTimeValue(item.Date)},
+                        {DateTimeValue(at)},
                         {StringValue(item.BlockchainType)},
                         {StringValue(item.AddressName)},
                         {StringValue(item.Address)},

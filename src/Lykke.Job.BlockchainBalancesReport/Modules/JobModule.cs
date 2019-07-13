@@ -37,6 +37,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
                 .SingleInstance();
 
             builder.RegisterType<BuildReportJob>()
+                .WithParameter(TypedParameter.From(_settings.Report))
                 .AsSelf();
 
             builder
