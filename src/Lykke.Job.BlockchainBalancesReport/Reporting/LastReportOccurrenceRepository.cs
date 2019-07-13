@@ -4,6 +4,7 @@ using AzureStorage;
 using AzureStorage.Tables;
 using Lykke.AzureStorage.Tables;
 using Lykke.Common.Log;
+using Lykke.Job.BlockchainBalancesReport.Utils;
 using Lykke.SettingsReader;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
@@ -28,7 +29,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
         {
             var entity = await _storage.GetDataAsync(string.Empty, string.Empty);
 
-            return entity?.LastReportOccurrence;
+            return entity?.LastReportOccurrence.AsUtc();
         }
 
         public async Task SaveLastOccurrenceAsync(DateTime lastOccurrence)

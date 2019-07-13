@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Common.Log;
 using Cronos;
 using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Reporting;
+using Lykke.Job.BlockchainBalancesReport.Services;
 using Lykke.Job.BlockchainBalancesReport.Settings;
 
 namespace Lykke.Job.BlockchainBalancesReport.Jobs
@@ -33,57 +32,22 @@ namespace Lykke.Job.BlockchainBalancesReport.Jobs
 
         public async Task ExecuteAsync(CronExpression scheduleCron)
         {
-            _log.Info($"Executing the job. Schedule CRON: {scheduleCron}");
+            _log.Info($"Executing the job. Schedule CRON: {scheduleCron}, balances interval: {_reportSettings.BalancesIntervalFromSchedule}");
 
             var lastOccurrence = await _lastReportOccurrenceRepository.GetLastOccurrenceOrDefaultAsync();
             var now = DateTime.UtcNow;
 
             _log.Info($"Last report occurence is [{lastOccurrence:s}]");
 
-            IReadOnlyCollection<DateTime> missedOccurrences;
-
-            if (lastOccurrence.HasValue)
-            {
-                missedOccurrences = scheduleCron.GetOccurrences
-                    (
-                        lastOccurrence.Value,
-                        now,
-                        false,
-                        true
-                    )
-                    .ToArray();
-            }
-            else
-            {
-                var gap = TimeSpan.FromMinutes(1);
-
-                do
-                {
-                    var occurrences = scheduleCron.GetOccurrences
-                        (
-                            now - gap,
-                            now,
-                            false,
-                            true
-                        )
-                        .ToArray();
-
-                    if (occurrences.Any())
-                    {
-                        missedOccurrences = new[] {occurrences.Last()};
-                        break;
-                    }
-
-                    gap *= 10;
-                }
-                while (true);
-            }
-
+            var missedOccurrencesProvider = new JobMissedOccurrencesProvider();
+            var missedOccurrences = missedOccurrencesProvider.GetMissedOccurrenceAsync(scheduleCron, lastOccurrence, now);
+            
             _log.Info("Missed occurrences", missedOccurrences); 
 
             foreach (var occurrence in missedOccurrences)
             {
                 await _reportBuilder.BuildAsync(occurrence - _reportSettings.BalancesIntervalFromSchedule);
+                await _lastReportOccurrenceRepository.SaveLastOccurrenceAsync(occurrence);
             }
 
             _log.Info("Executing the job is done.");
