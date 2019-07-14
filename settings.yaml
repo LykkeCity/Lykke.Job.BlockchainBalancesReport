@@ -20,20 +20,25 @@ Report:
         File:
             IsEnabled:
                 settings-key: BlockchainBalancesReportJob-ReportIsFileRepositoryEnabled
-                - Optional
+                types:
+                    - Optional
             FilePath:
                 settings-key: BlockchainBalancesReportJob-ReportFileRepositoryFilePath
-                - Optional
+                types:
+                    - Optional
         Sql:
             IsEnabled:
                 settings-key: BlockchainBalancesReportJob-ReportIsSqlRepositoryEnabled
-                - Optional
+                types:
+                    - Optional
             ConnString:
                 settings-key: BlockchainBalancesReportJob-ReportSqlRepositoryConnString
-                - Optional
+                types:
+                    - Optional
             CreateTable:
                 settings-key: BlockchainBalancesReportJob-ReportSqlRepositoryCreateTable
-                - Optional
+                types:
+                    - Optional
     Addresses:
         # Should be a list of blockchains with map of address names to their values in each blockchain
         # Example:
