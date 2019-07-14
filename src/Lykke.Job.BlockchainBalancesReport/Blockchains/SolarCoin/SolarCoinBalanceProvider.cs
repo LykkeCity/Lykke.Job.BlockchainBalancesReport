@@ -36,7 +36,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
 
             var id = ChainIdDeserializer.GetChainid(indexResp);
 
-            //TODO add rate limiter retry processing 
             var txsResp = await _baseUrl.AppendPathSegment("explorer/address.summary.dws").SetQueryParams
                 (
                     new
@@ -46,6 +45,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
                     }
                 )
                 .GetStringAsync();
+
+            if (txsResp.Contains("busy"))
+            {
+                throw new ArgumentException("Request failed due rate limiter");
+            }
 
             var history = ChainIdDeserializer.DeserializeTransactionsResp(txsResp);
             var result = 0m;
