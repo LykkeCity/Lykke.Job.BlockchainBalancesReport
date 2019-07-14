@@ -11,6 +11,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
     public class BitsharesBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
+        public string BlockchainType => "Bitshares";
+
         private readonly string _baseUrl;
         private readonly Dictionary<string, (BlockchainAsset asset, int precision)> _cachedAssets;
 
@@ -33,8 +36,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 
             _cachedAssets = new Dictionary<string, (BlockchainAsset asset, int precision)>();
         }
-
-        public string BlockchainType => "Bitshares";
 
         public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {

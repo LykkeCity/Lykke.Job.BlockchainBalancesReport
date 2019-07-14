@@ -10,6 +10,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
 {
     public class DashInsightApiBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Dash";
 
         private readonly Network _network;

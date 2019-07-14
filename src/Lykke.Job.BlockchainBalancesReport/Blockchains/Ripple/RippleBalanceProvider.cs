@@ -10,6 +10,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 {
     public class RippleBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Ripple";
 
         private readonly RippleDataApiClient _client;
@@ -47,7 +48,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
         {
             return asset == "XRP" 
                 ? new BlockchainAsset("XRP", "XRP", "463b1b32-b801-4ea9-a321-7e81bb73d947") 
-                // TODO: Get asset id from assets service
                 : null;
         }
     }

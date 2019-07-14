@@ -11,6 +11,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinSv
 {
     public class BitcoinSvBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "BitcoinSv";
 
         private readonly Network _btcNetwork;
