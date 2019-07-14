@@ -40,10 +40,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Modules
                 .WithParameter(TypedParameter.From(_settings.Report))
                 .AsSelf();
 
-            builder
-                .RegisterBuildCallback(StartHangfireServer)
-                .Register(ctx => new BackgroundJobServer())
-                .SingleInstance();
+            if (_settings.Schedule.IsEnabled)
+            {
+                builder
+                    .RegisterBuildCallback(StartHangfireServer)
+                    .Register(ctx => new BackgroundJobServer())
+                    .SingleInstance();
+            }
         }
 
         private void StartHangfireServer(

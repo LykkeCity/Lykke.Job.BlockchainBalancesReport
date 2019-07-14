@@ -11,6 +11,8 @@ MongoStorage:
     HangFireConnString:
         settings-key: BlockchainBalancesReportJob-HangfireConnString
 Schedule:
+    IsEnabled:
+        settings-key: BlockchainBalancesReportJob-IsBuildReportScheduleEnabled
     BuildReportCron: 
         settings-key: BlockchainBalancesReportJob-BuildReportScheduleCron
 Report:
@@ -109,6 +111,9 @@ Blockchains:
     Steem:
         SteemetBaseUrl:
             settings-key: SteemetBaseUrl
+    BitcoinSv:
+        InsightApiUrl:
+            settings-key: BsvInsightApiUrl
 SlackNotifications:
     AzureQueue:
         ConnectionString:

@@ -33,5 +33,7 @@
         public StellarSettings Stellar { get; set; }
 
         public ZCashSettings ZCash { get; set; }
+
+        public BitcoinSvSettings BitcoinSv { get; set; }
     }
 }
