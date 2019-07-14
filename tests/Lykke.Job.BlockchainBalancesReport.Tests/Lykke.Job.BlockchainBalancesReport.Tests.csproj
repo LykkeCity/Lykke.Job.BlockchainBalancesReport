@@ -15,6 +15,12 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Update="SolarCoinIndex.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="SolarCoinTransactionsResp.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="SteemetResp.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
