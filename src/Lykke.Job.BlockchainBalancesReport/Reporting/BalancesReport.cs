@@ -53,7 +53,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             string blockchainType, 
             string addressName, 
             string address, 
-            Asset asset,
+            BlockchainAsset asset,
             decimal balance, 
             string explorerUrl)
         {

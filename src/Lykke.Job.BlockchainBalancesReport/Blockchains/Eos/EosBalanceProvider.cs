@@ -32,7 +32,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
             _nativeAsset = ("eosio.token", "EOS");
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var page = 1;
             var balances = new Dictionary<(string Code, string Symbol), decimal>();
@@ -165,11 +165,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
             return balances.ToDictionary(x => GetBalancesKey(x.Key.Code, x.Key.Symbol), x => x.Value);
         }
 
-        private Asset GetBalancesKey(string code, string symbol)
+        private BlockchainAsset GetBalancesKey(string code, string symbol)
         {
             return code == _nativeAsset.Code
-                ? new Asset(symbol, code, "782e7e92-2ce0-4b21-b425-6096983351af") 
-                : new Asset(symbol, code, null);
+                ? new BlockchainAsset(symbol, code, "782e7e92-2ce0-4b21-b425-6096983351af") 
+                : new BlockchainAsset(symbol, code, null);
         }
     }
 }

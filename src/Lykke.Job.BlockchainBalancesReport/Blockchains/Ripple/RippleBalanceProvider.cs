@@ -19,7 +19,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
             _client = new RippleDataApiClient(settings.DataApiUrl);
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var response = await _client.GetBalances(address, at);
 
@@ -43,10 +43,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
                 .ToDictionary(x => GetAsset(x.Asset), x => x.Balance);
         }
 
-        private Asset GetAsset(string asset)
+        private BlockchainAsset GetAsset(string asset)
         {
             return asset == "XRP" 
-                ? new Asset("XRP", "XRP", "463b1b32-b801-4ea9-a321-7e81bb73d947") 
+                ? new BlockchainAsset("XRP", "XRP", "463b1b32-b801-4ea9-a321-7e81bb73d947") 
                 // TODO: Get asset id from assets service
                 : null;
         }

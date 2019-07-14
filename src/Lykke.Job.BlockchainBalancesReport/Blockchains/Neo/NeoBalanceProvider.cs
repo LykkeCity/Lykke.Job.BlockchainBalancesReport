@@ -16,8 +16,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
 
         private readonly string _baseUrl;
 
-        private readonly Asset _neoAsset;
-        private readonly Asset _gasAsset;
+        private readonly BlockchainAsset _neoAsset;
+        private readonly BlockchainAsset _gasAsset;
         private readonly Dictionary<string, string> _assetNames;
 
         // ReSharper disable once UnusedMember.Global
@@ -41,9 +41,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
 
         public string BlockchainType => "Neo";
 
-        public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
-            var result = new Dictionary<Asset, decimal>
+            var result = new Dictionary<BlockchainAsset, decimal>
             {
                 {_neoAsset, 0},
                 {_gasAsset, 0}
@@ -89,17 +89,17 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
             return await _baseUrl.AppendPathSegment(segment).GetJsonAsync<T>();
         }
 
-        private Asset BuildAsset(string blockchainAssetId)
+        private BlockchainAsset BuildAsset(string blockchainAssetId)
         {
             switch (blockchainAssetId)
             {
                 case NeoBlockchainAssetId:
                 {
-                    return new Asset("NEO", blockchainAssetId, "ac2e579f-187b-4429-8d60-bea6e4f65f76");
+                    return new BlockchainAsset("NEO", blockchainAssetId, "ac2e579f-187b-4429-8d60-bea6e4f65f76");
                 }
                 case GasBlockchainAssetId:
                 {
-                    return new Asset("GAS", blockchainAssetId, "f1ccf1dd-9008-4999-adc8-2cb587717083");
+                    return new BlockchainAsset("GAS", blockchainAssetId, "f1ccf1dd-9008-4999-adc8-2cb587717083");
                 }
                 default:
                 {
@@ -108,7 +108,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
                         assetName = blockchainAssetId;
                     }
 
-                    return new Asset(assetName, blockchainAssetId, null);
+                    return new BlockchainAsset(assetName, blockchainAssetId, null);
                 }
             }
         } 

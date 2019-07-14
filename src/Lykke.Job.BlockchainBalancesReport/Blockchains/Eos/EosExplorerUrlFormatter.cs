@@ -4,7 +4,7 @@
     {
         public string BlockchainType => "Eos";
 
-        public string Format(string address, Asset asset)
+        public string Format(string address, BlockchainAsset asset)
         {
             return $"https://eosauthority.com/account/{address}";
         }

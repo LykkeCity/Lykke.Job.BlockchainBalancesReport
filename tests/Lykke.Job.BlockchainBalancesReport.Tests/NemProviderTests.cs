@@ -14,11 +14,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         {
             var balanceProvider = new NemBalanceProvider("http://explorer.nemtool.com/");
 
-            var nemAsset = new Asset("XEM", "XEM", "903eafbd-cc29-4d60-8d7d-907695d9caae");
+            var nemAsset = new BlockchainAsset("XEM", "XEM", "903eafbd-cc29-4d60-8d7d-907695d9caae");
             
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<BlockchainAsset, decimal> result)>
             {
-                ("NAFSSJLNTIEI5ISMWKEY2BJFH5LAUSHP7JVQLWGT", DateTime.Parse("2019-07-04T19:00:00+0000"), new Dictionary<Asset, decimal>
+                ("NAFSSJLNTIEI5ISMWKEY2BJFH5LAUSHP7JVQLWGT", DateTime.Parse("2019-07-04T19:00:00+0000"), new Dictionary<BlockchainAsset, decimal>
                 {
                     {nemAsset, 4868.073614m }
                 })

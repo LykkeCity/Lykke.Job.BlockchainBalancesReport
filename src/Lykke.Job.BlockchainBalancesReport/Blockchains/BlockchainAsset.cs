@@ -2,20 +2,20 @@
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains
 {
-    public class Asset:IEquatable<Asset>
+    public class BlockchainAsset : IEquatable<BlockchainAsset>
     {
         public string BlockchainId { get; }
         public string LykkeId { get; }
         public string Name { get; }
 
-        public Asset(string name, string blockchainId, string lykkeId)
+        public BlockchainAsset(string name, string blockchainId, string lykkeId)
         {
             Name = name;
             BlockchainId = blockchainId;
             LykkeId = lykkeId;
         }
 
-        public bool Equals(Asset other)
+        public bool Equals(BlockchainAsset other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -27,7 +27,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != this.GetType()) return false;
-            return Equals((Asset) obj);
+            return Equals((BlockchainAsset) obj);
         }
 
         public override int GetHashCode()

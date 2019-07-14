@@ -4,7 +4,7 @@
     {
         public string BlockchainType => "Ethereum";
 
-        public string Format(string address, Asset asset)
+        public string Format(string address, BlockchainAsset asset)
         {
             if (asset.BlockchainId != "ETH")
             {

@@ -23,18 +23,18 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var balances = await _horizonBalanceProvider.GetBalancesAsync(address, at);
 
             return balances.ToDictionary(x => GetBalancesKey(x.Key), x => x.Value);
         }
 
-        private static Asset GetBalancesKey(string assetType)
+        private static BlockchainAsset GetBalancesKey(string assetType)
         {
             return assetType == "XLM"
-                ? new Asset("XLM", "XLM", "b5a0389c-fe57-425f-ab17-af41638f6b89")
-                : new Asset(assetType, assetType, null);
+                ? new BlockchainAsset("XLM", "XLM", "b5a0389c-fe57-425f-ab17-af41638f6b89")
+                : new BlockchainAsset(assetType, assetType, null);
         }
     }
 }

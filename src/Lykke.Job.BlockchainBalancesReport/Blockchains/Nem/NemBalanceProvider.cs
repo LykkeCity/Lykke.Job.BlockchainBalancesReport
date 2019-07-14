@@ -12,7 +12,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
     public class NemBalanceProvider : IBalanceProvider
     {
         private readonly string _baseUrl;
-        private readonly Asset _nemAsset;
+        private readonly BlockchainAsset _nemAsset;
         private const int Precision = 6;
 
         // ReSharper disable once UnusedMember.Global
@@ -25,12 +25,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
         {
             _baseUrl = baseUrl;
             
-            _nemAsset = new Asset("XEM", "XEM", "903eafbd-cc29-4d60-8d7d-907695d9caae");
+            _nemAsset = new BlockchainAsset("XEM", "XEM", "903eafbd-cc29-4d60-8d7d-907695d9caae");
         }
 
         public string BlockchainType => "Nem";
 
-        public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var result = 0m;
             var page = 0;
@@ -81,7 +81,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
                 result += balanceChange;
             }
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
                 {_nemAsset, result}
             };

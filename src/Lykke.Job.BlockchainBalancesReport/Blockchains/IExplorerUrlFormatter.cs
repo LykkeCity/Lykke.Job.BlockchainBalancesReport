@@ -3,6 +3,6 @@
     public interface IExplorerUrlFormatter
     {
         string BlockchainType { get; }
-        string Format(string address, Asset asset);
+        string Format(string address, BlockchainAsset asset);
     }
 }
