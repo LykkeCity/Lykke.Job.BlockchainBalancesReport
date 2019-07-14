@@ -59,7 +59,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
                 return value / (decimal) (Math.Pow(10, Precision));
             }
 
-            foreach (var entry in history.Where(p => DateTimeOffset.FromUnixTimeSeconds(p.TimeStamp) <= at))
+            var nemEpoch = new DateTimeOffset(2015, 03, 29, 0, 6, 25, TimeSpan.Zero).ToUnixTimeSeconds();
+
+            foreach (var entry in history.Where(p => DateTimeOffset.FromUnixTimeSeconds(p.TimeStamp + nemEpoch) <= at))
             {
 
                 var alignedAmount = Align(entry.Amount);
