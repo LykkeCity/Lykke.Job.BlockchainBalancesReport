@@ -2,6 +2,7 @@
 {
     public class ScheduleSettings
     {
+        public bool IsEnabled { get; set; }
         public string BuildReportCron { get; set; }
     }
 }

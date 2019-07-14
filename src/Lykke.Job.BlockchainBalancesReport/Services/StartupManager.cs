@@ -24,14 +24,17 @@ namespace Lykke.Job.BlockchainBalancesReport.Services
 
         public Task StartAsync()
         {
-            _log.Info($"Registering {nameof(BuildReportJob)} as recurring job '{BuildReportJob.Id}' with CRON '{_scheduleSettings.BuildReportCron}'...");
+            if (_scheduleSettings.IsEnabled)
+            {
+                _log.Info($"Registering {nameof(BuildReportJob)} as recurring job '{BuildReportJob.Id}' with CRON '{_scheduleSettings.BuildReportCron}'...");
 
-            RecurringJob.AddOrUpdate<BuildReportJob>
-            (
-                recurringJobId: BuildReportJob.Id,
-                methodCall: job => job.ExecuteAsync(_scheduleSettings.BuildReportCron),
-                cronExpression: _scheduleSettings.BuildReportCron
-            );
+                RecurringJob.AddOrUpdate<BuildReportJob>
+                (
+                    recurringJobId: BuildReportJob.Id,
+                    methodCall: job => job.ExecuteAsync(_scheduleSettings.BuildReportCron),
+                    cronExpression: _scheduleSettings.BuildReportCron
+                );
+            }
 
             return Task.CompletedTask;
         }
