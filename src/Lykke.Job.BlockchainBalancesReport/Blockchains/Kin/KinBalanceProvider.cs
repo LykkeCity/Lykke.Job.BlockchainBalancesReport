@@ -9,6 +9,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Kin
 {
     public class KinBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Kin";
 
         private readonly HorizonBalanceProvider _horizonBalanceProvider;

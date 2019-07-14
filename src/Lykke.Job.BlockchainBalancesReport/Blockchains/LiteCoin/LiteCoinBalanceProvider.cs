@@ -11,6 +11,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.LiteCoin
 {
     public class LiteCoinBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "LiteCoin";
 
         private readonly Network _network;

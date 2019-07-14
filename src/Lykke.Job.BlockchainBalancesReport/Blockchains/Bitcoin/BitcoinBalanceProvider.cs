@@ -9,6 +9,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitcoin
 {
     public class BitcoinBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Bitcoin";
 
         private readonly NinjaClient _client;

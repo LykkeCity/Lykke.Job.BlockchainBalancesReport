@@ -59,6 +59,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             var balanceProvider = _balanceProvidersFactory.GetBalanceProvider(blockchainType);
             var explorerUrlFormatter = _explorerUrlFormattersFactory.GetFormatterOrDefault(blockchainType);
 
+            await balanceProvider.AsyncInitialization;
+
             foreach (var (addressName, address) in namedAddresses)
             {
                 _log.Info($"Getting balances of {blockchainType} {addressName}: {address}...");

@@ -11,6 +11,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
 {
     public class NemBalanceProvider : IBalanceProvider
     {
+        public Task AsyncInitialization => Task.CompletedTask;
+        public string BlockchainType => "Nem";
+
         private readonly string _baseUrl;
         private readonly BlockchainAsset _nemAsset;
         private const int Precision = 6;
@@ -27,8 +30,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
             
             _nemAsset = new BlockchainAsset("XEM", "XEM", "903eafbd-cc29-4d60-8d7d-907695d9caae");
         }
-
-        public string BlockchainType => "Nem";
 
         public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
