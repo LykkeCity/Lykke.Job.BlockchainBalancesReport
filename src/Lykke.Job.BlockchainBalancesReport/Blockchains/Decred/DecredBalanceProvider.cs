@@ -33,14 +33,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync2(address, at);
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
-                {new Asset("DCR", "DCR", "02154b48-7ed9-4211-b614-e87679fd4f5a"), balance}
+                {new BlockchainAsset("DCR", "DCR", "02154b48-7ed9-4211-b614-e87679fd4f5a"), balance}
             };
         }
 

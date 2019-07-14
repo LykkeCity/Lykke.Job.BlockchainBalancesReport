@@ -11,7 +11,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
     public class SteemBalanceProvider : IBalanceProvider
     {
         private readonly string _baseUrl;
-        private readonly Asset _steemAsset;
+        private readonly BlockchainAsset _steemAsset;
 
         // ReSharper disable once UnusedMember.Global
         public SteemBalanceProvider(SteemSettings settings) :
@@ -23,12 +23,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
         {
             _baseUrl = baseUrl;
             
-            _steemAsset = new Asset("STEEM", "STEEM", "72da9464-49d0-4f95-983d-635c04e39f3c");
+            _steemAsset = new BlockchainAsset("STEEM", "STEEM", "72da9464-49d0-4f95-983d-635c04e39f3c");
         }
 
         public string BlockchainType => "Steem";
 
-        public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var result = 0m;
 
@@ -57,7 +57,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
                 }
             }
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
                 {_steemAsset, result}
             };

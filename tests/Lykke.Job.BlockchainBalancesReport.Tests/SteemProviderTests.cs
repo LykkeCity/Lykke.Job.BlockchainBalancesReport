@@ -17,11 +17,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         {
             var balanceProvider = new SteemBalanceProvider("https://api.steemit.com/");
 
-            var asset = new Asset("STEEM", "STEEM", "72da9464-49d0-4f95-983d-635c04e39f3c");
+            var asset = new BlockchainAsset("STEEM", "STEEM", "72da9464-49d0-4f95-983d-635c04e39f3c");
             
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<BlockchainAsset, decimal> result)>
             {
-                ("lykke-exchange", DateTime.Parse("2019-07-10T19:00:00+0000"), new Dictionary<Asset, decimal>
+                ("lykke-exchange", DateTime.Parse("2019-07-10T19:00:00+0000"), new Dictionary<BlockchainAsset, decimal>
                 {
                     {asset, 2751.324m }
                 })

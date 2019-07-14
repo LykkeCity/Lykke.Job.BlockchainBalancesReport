@@ -20,7 +20,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
             _tokensCache = new Dictionary<string, SamuraiErc20TokenResponse>();
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var atTime = new DateTimeOffset(at, TimeSpan.Zero).ToUnixTimeSeconds();
             var normalizedAddress = address.ToLower();
@@ -32,7 +32,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
                 (
                     new[]
                     {
-                        new KeyValuePair<Asset, decimal>(new Asset("ETH", "ETH", "ETH"), ethBalance)
+                        new KeyValuePair<BlockchainAsset, decimal>(new BlockchainAsset("ETH", "ETH", "ETH"), ethBalance)
                     }
                 )
                 .ToDictionary(x => x.Key, x => x.Value);
@@ -88,7 +88,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
             return balance;
         }
 
-        private async Task<IReadOnlyDictionary<Asset, decimal>> GetErc20BalancesAsync(string address, long at)
+        private async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetErc20BalancesAsync(string address, long at)
         {
             var balances = new Dictionary<(string Address, string Name), decimal>();
             var start = 0;
@@ -157,10 +157,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
             return token;
         }
 
-        private static Asset GetAsset(string contractAddress, string name)
+        private static BlockchainAsset GetAsset(string contractAddress, string name)
         {
             // TODO: Get Lykke Asset ID
-            return new Asset(name, contractAddress, null);
+            return new BlockchainAsset(name, contractAddress, null);
         }
     }
 }

@@ -30,13 +30,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
-                {new Asset("DASH", "DASH", "4d498e43-956f-45ee-be07-8bb435003f26"), balance}
+                {new BlockchainAsset("DASH", "DASH", "4d498e43-956f-45ee-be07-8bb435003f26"), balance}
             };
         }
 

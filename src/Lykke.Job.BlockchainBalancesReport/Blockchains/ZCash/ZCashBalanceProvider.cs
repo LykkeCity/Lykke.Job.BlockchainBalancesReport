@@ -25,13 +25,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.ZCash
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
-                {new Asset("ZEC", "ZEC", "b2c591a2-6c2d-4130-89cd-71813481bb76"), balance}
+                {new BlockchainAsset("ZEC", "ZEC", "b2c591a2-6c2d-4130-89cd-71813481bb76"), balance}
             };
         }
 

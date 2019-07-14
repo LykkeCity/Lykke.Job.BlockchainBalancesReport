@@ -33,14 +33,14 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinSv
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address,
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address,
             DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
-                {new Asset("BSV", "BSV", "d027469e-04a1-4578-8e4f-a7e0e9e40132"), balance}
+                {new BlockchainAsset("BSV", "BSV", "d027469e-04a1-4578-8e4f-a7e0e9e40132"), balance}
             };
         }
         
