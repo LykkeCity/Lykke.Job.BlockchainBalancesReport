@@ -12,7 +12,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
     public class SolarCoinBalanceProvider : IBalanceProvider
     {
         private readonly string _baseUrl;
-        private readonly Asset _nemAsset;
+        private readonly Asset _baseAsset;
 
         // ReSharper disable once UnusedMember.Global
         public SolarCoinBalanceProvider(SolarCoinSetting settings) :
@@ -24,7 +24,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
         {
             _baseUrl = baseUrl;
             
-            _nemAsset = new Asset("SLR", "SLR", "SLR");
+            _baseAsset = new Asset("SLR", "SLR", "SLR");
         }
 
         public string BlockchainType => "SLR";
@@ -42,7 +42,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
                     new
                     {
                         coin = "slr",
-                        id = id
+                        id
                     }
                 )
                 .GetStringAsync();
@@ -57,7 +57,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
 
             return new Dictionary<Asset, decimal>
             {
-                {_nemAsset, result}
+                {_baseAsset, result}
             };
         }
     }
