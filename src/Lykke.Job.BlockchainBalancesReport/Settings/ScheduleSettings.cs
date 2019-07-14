@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Lykke.Job.BlockchainBalancesReport.Settings
+﻿namespace Lykke.Job.BlockchainBalancesReport.Settings
 {
     public class ScheduleSettings
     {
