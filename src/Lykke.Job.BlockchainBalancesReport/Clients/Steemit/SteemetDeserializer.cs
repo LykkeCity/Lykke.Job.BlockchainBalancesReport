@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json;
 
@@ -40,7 +41,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Clients.Steemit
 
         private static decimal ParseSteemValue(string sourceValue)
         {
-            return decimal.Parse(sourceValue.Replace(" STEEM", "").Replace(".", ","));
+            return decimal.Parse(sourceValue.Replace(" STEEM", ""), CultureInfo.InvariantCulture);
         }
 
         private class TransactionsResp
