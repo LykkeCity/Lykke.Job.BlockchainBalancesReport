@@ -111,6 +111,9 @@ Blockchains:
     Steem:
         SteemitBaseUrl:
             settings-key: SteemitBaseUrl
+    Solar:
+        ChainzBaseUrl:
+            settings-key: SolarCoinChainzBaseUrl
     BitcoinSv:
         InsightApiUrl:
             settings-key: BsvInsightApiUrl
