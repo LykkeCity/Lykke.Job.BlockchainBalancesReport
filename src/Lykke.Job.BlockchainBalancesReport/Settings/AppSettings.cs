@@ -13,5 +13,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Settings
         public ReportSettings Report { get; set; }
 
         public BlockchainsSettings Blockchains { get; set; }
+
+        public AssetsClientSettings Assets { get; set; }
     }
 }

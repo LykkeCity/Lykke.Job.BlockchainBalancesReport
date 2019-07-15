@@ -31,13 +31,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinGold
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var balance = await _balanceProvider.GetBalanceAsync(address, at);
 
-            return new Dictionary<Asset, decimal>
+            return new Dictionary<BlockchainAsset, decimal>
             {
-                {new Asset("BTG", "BTG", "a4954205-48eb-4286-9c82-07792169f4db"), balance}
+                {new BlockchainAsset("BTG", "BTG", "a4954205-48eb-4286-9c82-07792169f4db"), balance}
             };
         }
 

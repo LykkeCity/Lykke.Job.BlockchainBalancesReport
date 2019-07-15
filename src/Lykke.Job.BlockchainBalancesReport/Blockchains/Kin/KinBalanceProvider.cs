@@ -23,18 +23,18 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Kin
             );
         }
 
-        public async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
             var balances = await _horizonBalanceProvider.GetBalancesAsync(address, at);
 
             return balances.ToDictionary(x => GetBalancesKey(x.Key), x => x.Value);
         }
 
-        private Asset GetBalancesKey(string assetType)
+        private BlockchainAsset GetBalancesKey(string assetType)
         {
             return assetType == "KIN"
-                ? new Asset("KIN", "KIN", "568637d4-2b03-4f66-972e-b947a40f2771")
-                : new Asset(assetType, assetType, null);
+                ? new BlockchainAsset("KIN", "KIN", "568637d4-2b03-4f66-972e-b947a40f2771")
+                : new BlockchainAsset(assetType, assetType, null);
         }
     }
 }

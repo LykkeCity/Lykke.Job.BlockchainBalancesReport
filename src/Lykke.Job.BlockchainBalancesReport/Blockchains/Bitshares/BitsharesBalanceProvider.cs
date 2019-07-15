@@ -11,8 +11,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
     public class BitsharesBalanceProvider : IBalanceProvider
     {
+        public string BlockchainType => "Bitshares";
+
         private readonly string _baseUrl;
-        private readonly Dictionary<string, (Asset asset, int precision)> _cachedAssets;
+        private readonly Dictionary<string, (BlockchainAsset asset, int precision)> _cachedAssets;
 
         private readonly Dictionary<string, (string assetName, string lykkeAssetId)> _predefinedAssets;
 
@@ -31,14 +33,12 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
                 {"1.3.0", (assetName: "BTS", lykkeAssetId:"20ce0468-917e-4097-abba-edf7c8600cfb")}
             };
 
-            _cachedAssets = new Dictionary<string, (Asset asset, int precision)>();
+            _cachedAssets = new Dictionary<string, (BlockchainAsset asset, int precision)>();
         }
 
-        public string BlockchainType => "Bitshares";
-
-        public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
+        public  async Task<IReadOnlyDictionary<BlockchainAsset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
-            var result = new Dictionary<Asset, decimal>();
+            var result = new Dictionary<BlockchainAsset, decimal>();
 
             var page = 0;
             var proceedNext = true;
@@ -101,17 +101,17 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
             return result;
         }
 
-        private async Task<(Asset asset, int precision)> GetAssetInfoAsync(string assetId)
+        private async Task<(BlockchainAsset asset, int precision)> GetAssetInfoAsync(string assetId)
         {
             if (_cachedAssets.ContainsKey(assetId))
             {
                 return _cachedAssets[assetId];
             }
 
-            (Asset asset, int precision) result;
+            (BlockchainAsset asset, int precision) result;
             if (_predefinedAssets.TryGetValue(assetId, out var data))
             {
-                result =  (asset: new Asset(data.assetName, assetId, data.lykkeAssetId), precision: 5);
+                result =  (asset: new BlockchainAsset(data.assetName, assetId, data.lykkeAssetId), precision: 5);
             }
             else
             {
@@ -123,7 +123,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
                     }
                 ).GetJsonAsync<AssetResponse>();
 
-                result = (new Asset(resp.Symbol, assetId, null), resp.Precision);
+                result = (new BlockchainAsset(resp.Symbol, assetId, null), resp.Precision);
             }
 
             _cachedAssets[assetId] = result;

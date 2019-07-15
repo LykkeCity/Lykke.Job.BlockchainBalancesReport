@@ -5,6 +5,7 @@ using Common.Log;
 using Lykke.Common.Log;
 using Lykke.Job.BlockchainBalancesReport.Blockchains;
 using Lykke.Job.BlockchainBalancesReport.Settings;
+using Lykke.Job.BlockchainBalancesReport.Utils;
 using Polly;
 
 namespace Lykke.Job.BlockchainBalancesReport.Reporting
@@ -58,6 +59,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
         {
             var balanceProvider = _balanceProvidersFactory.GetBalanceProvider(blockchainType);
             var explorerUrlFormatter = _explorerUrlFormattersFactory.GetFormatterOrDefault(blockchainType);
+
+            if(balanceProvider is IAsyncInitialization initialization)
+            {
+                await initialization.AsyncInitialization;
+            }
 
             foreach (var (addressName, address) in namedAddresses)
             {

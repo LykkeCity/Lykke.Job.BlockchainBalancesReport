@@ -21,10 +21,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
                 "https://explorer.dcrdata.org/insight/api/"
             );
 
-            var decredAsset = new Asset("DCR","DCR", "02154b48-7ed9-4211-b614-e87679fd4f5a");
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
+            var decredAsset = new BlockchainAsset("DCR","DCR", "02154b48-7ed9-4211-b614-e87679fd4f5a");
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<BlockchainAsset, decimal> result)>
             {
-                ("DscTMvxiYJvUsC9VFFTLTFj9MPWo2Togc33", DateTime.Parse("2019-07-01T19:00:00+0000"), new Dictionary<Asset, decimal>
+                ("DscTMvxiYJvUsC9VFFTLTFj9MPWo2Togc33", DateTime.Parse("2019-07-01T19:00:00+0000"), new Dictionary<BlockchainAsset, decimal>
                 {
                     {decredAsset, 100.51172068m}
                 }),

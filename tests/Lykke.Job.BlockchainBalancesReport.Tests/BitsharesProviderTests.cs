@@ -14,11 +14,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         {
             var balanceProvider = new BitsharesBalanceProvider("https://explorer.bitshares-kibana.info/");
 
-            var bitshresAsset = new Asset("BTS", "1.3.0", "20ce0468-917e-4097-abba-edf7c8600cfb");
+            var bitshresAsset = new BlockchainAsset("BTS", "1.3.0", "20ce0468-917e-4097-abba-edf7c8600cfb");
             
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<BlockchainAsset, decimal> result)>
             {
-                ("1.2.1038643", DateTime.Parse("2019-07-03T19:00:00+0000"), new Dictionary<Asset, decimal>
+                ("1.2.1038643", DateTime.Parse("2019-07-03T19:00:00+0000"), new Dictionary<BlockchainAsset, decimal>
                 {
                     {bitshresAsset, 35441.40289m }
                 })
