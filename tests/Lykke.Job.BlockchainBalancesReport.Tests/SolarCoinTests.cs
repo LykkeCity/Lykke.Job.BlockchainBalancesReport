@@ -38,11 +38,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         {
             var balanceProvider = new SolarCoinBalanceProvider("https://chainz.cryptoid.info");
 
-            var baseAsset = new Asset("SLR", "SLR", "SLR");
+            var baseAsset = new BlockchainAsset("SLR", "SLR", "SLR");
 
-            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<Asset, decimal> result)>
+            var expectations = new List<(string address, DateTime dateTime, IReadOnlyDictionary<BlockchainAsset, decimal> result)>
             {
-                ("8cSBrj3d9Hc2KZ6dfNCMHG4BqLwjMjNULP", DateTime.Parse("2019-07-14T22:00+0000"), new Dictionary<Asset, decimal>
+                ("8cSBrj3d9Hc2KZ6dfNCMHG4BqLwjMjNULP", DateTime.Parse("2019-07-14T22:00+0000"), new Dictionary<BlockchainAsset, decimal>
                 {
                     {baseAsset, 7741781.94727671m }
                 })
