@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Lykke.Job.BlockchainBalancesReport.Clients.Steemit
 {
-    public static class SteemetDeserializer
+    public static class SteemitDeserializer
     {
         public static IEnumerable<(string txId, DateTime timestamp, string from, string to, decimal amount)> DeserializeTransactionsResp(string source)
         {

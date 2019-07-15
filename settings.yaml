@@ -109,8 +109,8 @@ Blockchains:
         NemChinaBaseUrl:
             settings-key: NemChinaBaseUrl
     Steem:
-        SteemetBaseUrl:
-            settings-key: SteemetBaseUrl
+        SteemitBaseUrl:
+            settings-key: SteemitBaseUrl
     BitcoinSv:
         InsightApiUrl:
             settings-key: BsvInsightApiUrl

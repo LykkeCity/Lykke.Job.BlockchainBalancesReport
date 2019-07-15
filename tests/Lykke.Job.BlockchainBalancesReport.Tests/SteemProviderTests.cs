@@ -38,9 +38,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
         [Fact]
         public async Task TaskCanDeserializeSteemitResponse()
         {
-            var respExample =await File.ReadAllTextAsync("SteemetResp.json");
+            var respExample =await File.ReadAllTextAsync("SteemitResp.json");
 
-            var typed = SteemetDeserializer.DeserializeTransactionsResp(respExample).ToList();
+            var typed = SteemitDeserializer.DeserializeTransactionsResp(respExample).ToList();
 
             Assert.NotEmpty(typed);
 

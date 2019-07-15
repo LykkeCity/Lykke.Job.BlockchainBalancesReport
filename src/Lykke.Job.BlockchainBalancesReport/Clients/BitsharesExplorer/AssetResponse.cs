@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExploler
+namespace Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExplorer
 {
     public class AssetResponse
     {
