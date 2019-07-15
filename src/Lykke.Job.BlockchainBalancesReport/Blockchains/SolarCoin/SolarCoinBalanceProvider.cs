@@ -27,7 +27,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
             _baseAsset = new Asset("SLR", "SLR", "SLR");
         }
 
-        public string BlockchainType => "SLR";
+        public string BlockchainType => "SolarCoin";
 
         public  async Task<IReadOnlyDictionary<Asset, decimal>> GetBalancesAsync(string address, DateTime at)
         {
