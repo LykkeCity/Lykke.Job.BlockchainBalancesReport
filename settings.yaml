@@ -111,7 +111,7 @@ Blockchains:
     Steem:
         SteemitBaseUrl:
             settings-key: SteemitBaseUrl
-    Solar:
+    SolarCoin:
         ChainzBaseUrl:
             settings-key: SolarCoinChainzBaseUrl
     BitcoinSv:
