@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using Flurl.Http;
-using Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExploler;
+using Lykke.Job.BlockchainBalancesReport.Clients.BitsharesExplorer;
 using Lykke.Job.BlockchainBalancesReport.Settings;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares

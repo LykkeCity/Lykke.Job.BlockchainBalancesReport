@@ -5,6 +5,6 @@
         /// <summary>
         /// https://api.steemit.com/
         /// </summary>
-        public string SteemetBaseUrl { get; set; }
+        public string SteemitBaseUrl { get; set; }
     }
 }

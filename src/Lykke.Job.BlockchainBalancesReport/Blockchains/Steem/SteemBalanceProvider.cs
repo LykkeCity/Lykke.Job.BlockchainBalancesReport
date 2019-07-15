@@ -15,7 +15,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
 
         // ReSharper disable once UnusedMember.Global
         public SteemBalanceProvider(SteemSettings settings) :
-            this(settings.SteemetBaseUrl)
+            this(settings.SteemitBaseUrl)
         {
         }
 
@@ -43,7 +43,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
                 }
             ).ReceiveString();
 
-            var history = SteemetDeserializer.DeserializeTransactionsResp(resp).ToList();
+            var history = SteemitDeserializer.DeserializeTransactionsResp(resp).ToList();
             foreach (var entry in history.Where(p => p.timestamp <= at))
             {
                 var isIncomingAmount = string.Equals(address, entry.to, StringComparison.InvariantCultureIgnoreCase);
