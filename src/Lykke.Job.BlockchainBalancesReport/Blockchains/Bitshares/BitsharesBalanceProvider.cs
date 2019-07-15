@@ -11,7 +11,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Bitshares
 {
     public class BitsharesBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Bitshares";
 
         private readonly string _baseUrl;

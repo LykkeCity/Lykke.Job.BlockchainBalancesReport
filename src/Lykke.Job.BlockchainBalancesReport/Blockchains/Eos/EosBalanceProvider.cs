@@ -14,7 +14,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Eos
 {
     public class EosBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Eos";
 
         private readonly ILog _log;

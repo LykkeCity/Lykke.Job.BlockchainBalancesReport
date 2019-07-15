@@ -11,7 +11,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.SolarCoin
 {
     public class SolarCoinBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "SolarCoin";
 
 

@@ -10,7 +10,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ripple
 {
     public class RippleBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Ripple";
 
         private readonly RippleDataApiClient _client;

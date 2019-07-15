@@ -9,7 +9,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Stellar
 {
     public class StellarBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Stellar";
 
         private readonly HorizonBalanceProvider _horizonBalanceProvider;

@@ -9,7 +9,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.ZCash
 {
     public class ZCashBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "ZCash";
 
         private readonly InsightApiBalanceProvider _balanceProvider;

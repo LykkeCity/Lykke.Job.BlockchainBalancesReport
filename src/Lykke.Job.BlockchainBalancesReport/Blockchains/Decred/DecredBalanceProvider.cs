@@ -9,7 +9,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Decred
 {
     public class DecredBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Decred";
 
         private readonly InsightApiBalanceProvider _balanceProvider;

@@ -11,7 +11,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinGold
 {
     public class BitcoinGoldBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "BitcoinGold";
 
         private readonly Network _network;

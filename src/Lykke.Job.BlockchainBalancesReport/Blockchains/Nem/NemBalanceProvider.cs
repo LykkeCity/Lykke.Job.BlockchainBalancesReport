@@ -11,7 +11,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Nem
 {
     public class NemBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Nem";
 
         private readonly string _baseUrl;

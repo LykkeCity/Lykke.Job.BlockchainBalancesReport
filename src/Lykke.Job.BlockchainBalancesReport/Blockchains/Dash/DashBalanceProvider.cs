@@ -8,15 +8,14 @@ using NBitcoin;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Dash
 {
-    public class DashInsightApiBalanceProvider : IBalanceProvider
+    public class DashBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Dash";
 
         private readonly Network _network;
         private readonly InsightApiBalanceProvider _balanceProvider;
 
-        public DashInsightApiBalanceProvider(
+        public DashBalanceProvider(
             ILogFactory logFactory, 
             DashSettings settings)
         {

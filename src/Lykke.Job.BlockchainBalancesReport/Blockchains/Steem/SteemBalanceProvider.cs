@@ -10,7 +10,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Steem
 {
     public class SteemBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Steem";
 
         private readonly string _baseUrl;

@@ -14,7 +14,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Neo
         private const string NeoBlockchainAssetId = "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b";
         private const string GasBlockchainAssetId = "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7";
 
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "Neo";
 
         private readonly string _baseUrl;

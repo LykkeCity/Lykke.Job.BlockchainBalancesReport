@@ -4,13 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Lykke.Job.BlockchainBalancesReport.Clients.Samurai;
 using Lykke.Job.BlockchainBalancesReport.Settings;
+using Lykke.Job.BlockchainBalancesReport.Utils;
 using Lykke.Service.Assets.Client;
 using Lykke.Service.Assets.Client.Models;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
 {
 
-    public class EthereumBalanceProvider : IBalanceProvider
+    public class EthereumBalanceProvider : 
+        IBalanceProvider,
+        IAsyncInitialization
     {
         public Task AsyncInitialization { get; }
         public string BlockchainType => "Ethereum";

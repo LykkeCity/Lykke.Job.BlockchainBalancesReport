@@ -11,7 +11,6 @@ namespace Lykke.Job.BlockchainBalancesReport.Blockchains.BitcoinCash
 {
     public class BitcoinCashBalanceProvider : IBalanceProvider
     {
-        public Task AsyncInitialization => Task.CompletedTask;
         public string BlockchainType => "BitcoinCash";
 
         private readonly Network _btcNetwork;
