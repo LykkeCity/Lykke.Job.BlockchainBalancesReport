@@ -34,6 +34,8 @@
 
         public ZCashSettings ZCash { get; set; }
 
+        public SolarCoinSetting SolarCoin { get; set; }
+
         public BitcoinSvSettings BitcoinSv { get; set; }
     }
 }
