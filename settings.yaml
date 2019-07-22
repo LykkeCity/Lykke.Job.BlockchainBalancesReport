@@ -117,6 +117,12 @@ Blockchains:
     BitcoinSv:
         InsightApiUrl:
             settings-key: BsvInsightApiUrl
+Assets:
+    ServiceUrl:
+        settings-key: AssetsServiceUrl
+    CacheExpirationPeriod:
+        settings-key: BlockchainBalancesReportJob-AssetsCacheExpirationPeriod
+
 SlackNotifications:
     AzureQueue:
         ConnectionString:
