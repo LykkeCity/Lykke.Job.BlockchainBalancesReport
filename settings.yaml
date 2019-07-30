@@ -117,6 +117,10 @@ Blockchains:
     BitcoinSv:
         InsightApiUrl:
             settings-key: BsvInsightApiUrl
+    EthereumClassic:
+        SamuraiApiUrl:
+            settings-key: EtcSamuraiUrl
+            
 Assets:
     ServiceUrl:
         settings-key: AssetsServiceUrl
