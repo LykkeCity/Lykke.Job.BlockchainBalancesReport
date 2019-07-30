@@ -12,17 +12,20 @@ namespace Lykke.Job.BlockchainBalancesReport.Services
     public class StartupManager : IStartupManager
     {
         private readonly ILog _log;
+        private readonly BuildReportJob _job;
         private readonly ScheduleSettings _scheduleSettings;
-
+        
         public StartupManager(
             ILogFactory logFactory,
+            BuildReportJob job,
             ScheduleSettings scheduleSettings)
         {
-            _scheduleSettings = scheduleSettings;
             _log = logFactory.CreateLog(this);
+            _job = job;
+            _scheduleSettings = scheduleSettings;
         }
 
-        public Task StartAsync()
+        public async Task StartAsync()
         {
             if (_scheduleSettings.IsEnabled)
             {
@@ -35,8 +38,10 @@ namespace Lykke.Job.BlockchainBalancesReport.Services
                     cronExpression: _scheduleSettings.BuildReportCron
                 );
             }
-
-            return Task.CompletedTask;
+            else
+            {
+                await _job.ExecuteAsync(_scheduleSettings.BuildReportCron);
+            }
         }
     }
 }
