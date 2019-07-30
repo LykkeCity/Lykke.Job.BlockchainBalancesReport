@@ -8,24 +8,23 @@ using Lykke.Service.Assets.Client;
 
 namespace Lykke.Job.BlockchainBalancesReport.Blockchains.Ethereum
 {
-    public class EthereumBalanceProvider : 
+    public class EthereumClassicBalanceProvider : 
         IBalanceProvider,
         IAsyncInitialization
     {
         public Task AsyncInitialization { get; }
-
-        public string BlockchainType => "Ethereum";
+        public string BlockchainType => "EthereumClassic";
 
         private readonly SamuraiBalanceProvider _balanceProvider;
 
-        public EthereumBalanceProvider(
-            EthereumSettings settings,
+        public EthereumClassicBalanceProvider(
+            EthereumClassicSettings settings,
             IAssetsServiceWithCache assetsServiceClient)
         {
             _balanceProvider = new SamuraiBalanceProvider
             (
                 settings.SamuraiApiUrl,
-                new BlockchainAsset("ETH", "ETH", "ETH"),
+                new BlockchainAsset("ETC", "ETC", "915c4074-ec20-40ed-b8b7-5e3cc2f303b1"),
                 assetsServiceClient
             );
 

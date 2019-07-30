@@ -37,5 +37,7 @@
         public SolarCoinSetting SolarCoin { get; set; }
 
         public BitcoinSvSettings BitcoinSv { get; set; }
+
+        public EthereumClassicSettings EthereumClassic { get; set; }
     }
 }
