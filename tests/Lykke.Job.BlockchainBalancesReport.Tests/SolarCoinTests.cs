@@ -33,7 +33,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Tests
             Assert.Equal(-549.60515999m, tx.amount );
         }
 
-        [Fact]
+        [Fact(Skip = "cryptoid API was changed and there is no replacement for the endpoint, that we have used")]
         public async Task CanCalculateBalanceAtPointOfTime()
         {
             var balanceProvider = new SolarCoinBalanceProvider("https://chainz.cryptoid.info");
