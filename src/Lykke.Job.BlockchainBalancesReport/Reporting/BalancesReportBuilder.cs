@@ -48,7 +48,11 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 
             _log.Info("Balances report building done");
 
-            await report.SaveAsync(at);
+            _log.Info("Flushing balance report report");
+
+            await report.FlushAsync();
+
+            _log.Info("Balances report flushing done");
         }
 
         private async Task BuildBlockchainReportAsync(
@@ -69,28 +73,50 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             {
                 _log.Info($"Getting balances of {blockchainType} {addressName}: {address}...");
 
-                var assetBalances = await Policy
-                    .Handle<Exception>(ex =>
-                    {
-                        _log.Warning($"Failed to get balances of {blockchainType}:{addressName}. Operation will be retried.", ex);
-                        return true;
-                    })
-                    .WaitAndRetryForeverAsync(i => TimeSpan.FromSeconds(Math.Min(i, 5)))
-                    .ExecuteAsync(async () => await balanceProvider.GetBalancesAsync(address, at));
-                
-                foreach (var (asset, balance) in assetBalances)
+                try
                 {
-                    var explorerUrl = explorerUrlFormatter?.Format(address, asset);
+                    var assetBalances = await Policy
+                        .Handle<Exception>
+                        (
+                            ex =>
+                            {
+                                _log.Warning
+                                (
+                                    $"Failed to get balances of {blockchainType}:{addressName}. Operation will be retried.",
+                                    ex
+                                );
+                                return true;
+                            }
+                        )
+                        .WaitAndRetryAsync(20, i => TimeSpan.FromSeconds(Math.Min(i, 5)))
+                        .ExecuteAsync(async () => await balanceProvider.GetBalancesAsync(address, at));
 
-                    report.AddBalance
-                    (
-                        blockchainType,
-                        addressName,
-                        address,
-                        asset,
-                        balance,
-                        explorerUrl
-                    );
+                    foreach (var (asset, balance) in assetBalances)
+                    {
+                        try
+                        {
+                            var explorerUrl = explorerUrlFormatter?.Format(address, asset);
+
+                            await report.AddBalanceAsync
+                            (
+                                at,
+                                blockchainType,
+                                addressName,
+                                address,
+                                asset,
+                                balance,
+                                explorerUrl
+                            );
+                        }
+                        catch (Exception ex)
+                        {
+                            _log.Warning($"Failed to add balance to the report {blockchainType}:{addressName}:{asset}={balance}", ex);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _log.Warning($"Failed to process {blockchainType}:{addressName}", ex);
                 }
             }
         }

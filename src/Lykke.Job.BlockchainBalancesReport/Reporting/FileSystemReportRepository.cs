@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -15,6 +16,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
     {
         private readonly ILog _logger;
         private readonly string _filePath;
+        private readonly ConcurrentBag<ReportItem> _items;
 
         public FileSystemReportRepository(
             ILogFactory logFactory,
@@ -22,18 +24,42 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
         {
             _logger = logFactory.CreateLog(this);
             _filePath = settings.FilePath;
+
+            _items = new ConcurrentBag<ReportItem>();
         }
 
-        public async Task SaveAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
+        public Task AddBalanceAsync(ReportItem item)
+        {
+            _items.Add(item);
+
+            return Task.CompletedTask;
+        }
+
+        public async Task FlushAsync()
+        {
+            foreach (var group in _items.GroupBy(x => x.At))
+            {
+                await SaveReportFileAsync(group.Key, group.ToArray());
+            }
+        }
+
+        private async Task SaveReportFileAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
         {
             var filePath = _filePath.Replace("{datetime}", at.ToString("yyyy-MM-ddTHH-mm-ss"));
 
             _logger.Info($"Saving balances report to {filePath}...");
 
-            var stream = File.Open(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            var stream = File.Open
+            (
+                filePath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.Read
+            );
             using (var writer = new StreamWriter(stream, Encoding.UTF8))
             {
-                await writer.WriteLineAsync("date (UTC),blockchain,addressName,address,asset,balance,blockchain asset ID,asset ID,explorer");
+                await writer.WriteLineAsync
+                    ("date (UTC),blockchain,addressName,address,asset,balance,blockchain asset ID,asset ID,explorer");
 
                 foreach (var i in items.OrderBy(x => x.BlockchainType).ThenBy(x => x.AddressName))
                 {
