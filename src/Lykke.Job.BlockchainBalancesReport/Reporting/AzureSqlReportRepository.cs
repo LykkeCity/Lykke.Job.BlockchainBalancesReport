@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Log;
@@ -27,7 +25,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             _createTable = settings.CreateTable;
         }
 
-        public async Task SaveAsync(DateTime at, IReadOnlyCollection<ReportItem> items)
+        public async Task AddBalanceAsync(ReportItem item)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -42,16 +40,21 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                     await EnsureTableIsCreatedAsync(connection);
                 }
 
-                _log.Info("Ensuring that there are no balances saved yet...");
+                _log.Debug("Ensuring that there is no balances saved yet...");
 
-                await RemoveItems(connection, at, items);
+                await RemoveItem(connection, item);
 
-                _log.Info("Saving balances...");
+                _log.Debug("Saving balance...");
 
-                await InsertItems(connection, at, items);
+                await InsertItem(connection, item);
 
-                _log.Info($"Saving done. {items.Count} balances saved");
+                _log.Debug("Balance saved");
             }
+        }
+
+        public Task FlushAsync()
+        {
+            return Task.CompletedTask;
         }
 
         private static async Task EnsureTableIsCreatedAsync(SqlConnection connection)
@@ -95,42 +98,31 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             }
         }
 
-        private static async Task RemoveItems(SqlConnection connection, DateTime at, IReadOnlyCollection<ReportItem> items)
+        private static async Task RemoveItem(SqlConnection connection, ReportItem item)
         {
             var sqlBuilder = new StringBuilder();
 
             sqlBuilder.AppendLine
             (
-                @"
+                $@"
                 delete from HotWalletBalances 
-                where"
-            );
-
-            var lastItem = items.Last();
-
-            foreach (var item in items)
-            {
-                sqlBuilder.AppendLine
-                (
-                    $@"
-                    date = {DateTimeValue(at)} and
+                where
+                    date = {DateTimeValue(item.At)} and
                     blockchain = {StringValue(item.BlockchainType)} and
                     address = {StringValue(item.Address)} and
-                    blockchainAsset = {StringValue(item.Asset.BlockchainId)}
-                    {(item == lastItem ? "" : "or")}"
-                );
-            }
+                    blockchainAsset = {StringValue(item.Asset.BlockchainId)}"
+            );
 
             await ExecuteNonQueryCommandAsync(connection, sqlBuilder.ToString());
         }
 
-        private static async Task InsertItems(SqlConnection connection, DateTime at, IReadOnlyCollection<ReportItem> items)
+        private static async Task InsertItem(SqlConnection connection, ReportItem item)
         {
             var sqlBuilder = new StringBuilder();
 
             sqlBuilder.AppendLine
             (
-                @"
+                $@"
                 insert into HotWalletBalances 
                 (
                     date,
@@ -143,18 +135,9 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                     assetId,                    
                     explorerUrl
                 )
-                values"
-            );
-
-            var lastItem = items.Last();
-
-            foreach (var item in items)
-            {
-                sqlBuilder.AppendLine
-                (
-                    $@"
+                values
                     (
-                        {DateTimeValue(at)},
+                        {DateTimeValue(item.At)},
                         {StringValue(item.BlockchainType)},
                         {StringValue(item.AddressName)},
                         {StringValue(item.Address)},
@@ -163,20 +146,27 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                         {StringValue(item.Asset.BlockchainId)},
                         {StringValue(item.Asset.LykkeId)},                        
                         {StringValue(item.ExplorerUrl)}
-                    ){(item == lastItem ? ";" : ",")}"
-                );
-            }
+                    )"
+            );
+
 
             await ExecuteNonQueryCommandAsync(connection, sqlBuilder.ToString());
         }
 
         private static async Task ExecuteNonQueryCommandAsync(SqlConnection connection, string sql)
         {
-            using (var command = connection.CreateCommand())
+            try
             {
-                command.CommandText = sql;
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = sql;
 
-                await command.ExecuteNonQueryAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Failed to execute command: {sql}", ex);
             }
         }
 

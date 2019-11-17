@@ -10,16 +10,13 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
 {
     public class BalancesReport
     {
-        private readonly List<ReportItem> _items;
-        private bool _saved;
+        private bool _flushed;
         private readonly IReadOnlyCollection<IReportRepository> _reportRepositories;
 
         public BalancesReport(
             ILogFactory logFactory,
             ReportSettings settings)
         {
-            _items = new List<ReportItem>();
-
             var repositories = new List<IReportRepository>();
                 
             if (settings.Repositories.File.IsEnabled)
@@ -49,7 +46,8 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             _reportRepositories = repositories;
         }
 
-        public void AddBalance(
+        public async Task AddBalanceAsync(
+            DateTime at,
             string blockchainType, 
             string addressName, 
             string address, 
@@ -57,27 +55,37 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
             decimal balance, 
             string explorerUrl)
         {
-            if (_saved)
+            if (_flushed)
             {
-                throw new InvalidOperationException("Report already saved");
+                throw new InvalidOperationException("Report already flushed");
             }
 
-            _items.Add(new ReportItem
+            var item = new ReportItem
             {
+                At = at,
                 BlockchainType = blockchainType,
                 AddressName = addressName,
                 Address = address,
                 Asset = asset,
                 Balance = balance,
                 ExplorerUrl = explorerUrl
-            });
+            };
+
+            var tasks = _reportRepositories.Select(x => x.AddBalanceAsync(item));
+
+            await Task.WhenAll(tasks);
         }
 
-        public async Task SaveAsync(DateTime at)
+        public async Task FlushAsync()
         {
-            _saved = true;
+            if (_flushed)
+            {
+                return;
+            }
 
-            var tasks = _reportRepositories.Select(x => x.SaveAsync(at, _items));
+            _flushed = true;
+
+            var tasks = _reportRepositories.Select(x => x.FlushAsync());
 
             await Task.WhenAll(tasks);
         }
