@@ -71,7 +71,7 @@ namespace Lykke.Job.BlockchainBalancesReport.Reporting
                             blockchain varchar(64) not null,
                             addressName varchar(64) not null,
                             address varchar(128) not null,
-                            assetName varchar(32) not null,
+                            assetName varchar(64) not null,
                             balance decimal(38, 16) not null,
                             blockchainAsset varchar(64) not null,
                             assetId varchar(64),                            
